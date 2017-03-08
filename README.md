@@ -18,3 +18,23 @@ Android app built using SDK or *React Native*.
 ## About
 This is a contest project for [Get noticed!](http://dajsiepoznac.pl) where I blog (on [pr0gramista.pl](https://pr0gramista.pl), in Polish) 
 about IT and this specific project.
+
+#### Configuration:
+In application.yml:
+```
+security:
+  oauth2:
+    client:
+      clientId: <put your id>
+      clientSecret: <put your secret>
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
+    resource:
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      preferTokenInfo: true
+```

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Test site</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:text="${user.name}">Jan Kowalski</div>
+<img style="width: 64px; height: 64px; border-radius: 32px;" th:src="${user.picture}" alt="Profile picture"/>
+</body>
+</html>
