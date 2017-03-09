@@ -1,3 +1,4 @@
+![Workdone Logo](https://raw.githubusercontent.com/PoprostuRonin/workdone/master/logo-small.png)
 # Workdone [![Build Status](https://travis-ci.org/PoprostuRonin/workdone.svg?branch=master)](https://travis-ci.org/PoprostuRonin/workdone)
 
 **WORK IN PROGRESS**
