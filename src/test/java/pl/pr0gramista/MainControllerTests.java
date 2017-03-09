@@ -9,8 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -25,5 +24,12 @@ public class MainControllerTests {
         mockMvc.perform(get("/"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("index"));
+    }
+
+    @Test
+    public void checkSecurity() throws Exception {
+        mockMvc.perform(get("/dangerous"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("**/login"));
     }
 }
