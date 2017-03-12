@@ -1,10 +1,15 @@
 package pl.pr0gramista.habits;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import pl.pr0gramista.user.User;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
+@JsonIgnoreProperties({"owner"})
 public class Habit {
 
     @Id
@@ -16,6 +21,9 @@ public class Habit {
 
     private String title;
     private String description;
+
+    @OneToOne
+    private User owner;
 
     public Habit() {
     }
@@ -65,6 +73,14 @@ public class Habit {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override

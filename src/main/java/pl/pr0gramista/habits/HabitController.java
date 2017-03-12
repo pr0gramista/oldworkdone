@@ -1,10 +1,13 @@
 package pl.pr0gramista.habits;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
+import pl.pr0gramista.user.User;
+import pl.pr0gramista.user.UserService;
 
 import javax.persistence.EntityManager;
-import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/habit")
@@ -16,25 +19,37 @@ public class HabitController {
     @Autowired
     private HabitRepository habitRepository;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Iterable<Habit> getAllHabits() {
-        return habitRepository.findAll();
+    public Iterable<Habit> getAllHabits(OAuth2Authentication auth) {
+        User user = userService.getUserForOAuthentication(auth);
+        return habitRepository.findAllByOwner(user);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void createNewHabit(@Valid Habit habit) {
+    public void createNewHabit(@RequestBody Habit habit, OAuth2Authentication auth) {
+        User user = userService.getUserForOAuthentication(auth);
+        habit.setOwner(user);
         habitRepository.save(habit);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteHabit(@PathVariable long id) {
-        habitRepository.delete(id);
+    public void deleteHabit(@PathVariable long id, OAuth2Authentication auth) {
+        User user = userService.getUserForOAuthentication(auth);
+        habitRepository.removeByIdAndOwner(id, user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void editHabit(@PathVariable long id, @Valid @RequestBody Habit habit) {
-        habit.setId(id);
-        System.out.println(habit.toString());
-        habitRepository.save(habit);
+    public void editHabit(@PathVariable long id, @RequestBody Habit habit, OAuth2Authentication auth) {
+        User user = userService.getUserForOAuthentication(auth);
+
+        Optional<Habit> habitOptional = habitRepository.findOneByIdAndOwner(id, user);
+        if (habitOptional.isPresent()) {
+            habit.setId(id);
+            habit.setOwner(user);
+            habitRepository.save(habit);
+        }
     }
 }
