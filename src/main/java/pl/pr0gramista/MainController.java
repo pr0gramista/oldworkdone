@@ -1,8 +1,10 @@
 package pl.pr0gramista;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -20,5 +22,17 @@ public class MainController {
         modelAndView.setViewName("test-login");
         modelAndView.addObject("user", authentication.getUserAuthentication().getDetails());
         return modelAndView;
+    }
+
+    @RequestMapping("/test-oauth")
+    @ResponseBody
+    public Object testOAuth(OAuth2Authentication auth) {
+        return auth;
+    }
+
+    @RequestMapping("/test-auth")
+    @ResponseBody
+    public Object testAuth(Authentication auth) {
+        return auth;
     }
 }
