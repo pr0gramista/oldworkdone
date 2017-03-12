@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import pl.pr0gramista.user.User;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +14,6 @@ public interface HabitRepository extends CrudRepository<Habit, Long> {
 
     Optional<Habit> findOneByIdAndOwner(long id, User owner);
 
+    @Transactional
     void removeByIdAndOwner(long id, User owner);
 }
