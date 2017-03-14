@@ -5,21 +5,20 @@ import org.springframework.web.bind.annotation.*;
 import pl.pr0gramista.user.User;
 import pl.pr0gramista.user.UserService;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/habit")
 public class HabitController {
 
-    @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private HabitRepository habitRepository;
 
-    @Autowired
     private UserService userService;
+
+    public HabitController(@Autowired HabitRepository habitRepository, @Autowired UserService userService) {
+        this.habitRepository = habitRepository;
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Iterable<Habit> getAllHabits(User user) {

@@ -117,4 +117,13 @@ public class Habit {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public void copy(Habit habit) {
+        setId(habit.getId());
+        setTitle(habit.getTitle());
+        setDescription(habit.getDescription());
+        setOwner(habit.getOwner());
+        setCoinReward(habit.getCoinReward());
+        setExpReward(habit.getExpReward());
+    }
 }
