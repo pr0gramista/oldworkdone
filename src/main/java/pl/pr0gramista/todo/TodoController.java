@@ -10,9 +10,11 @@ import java.util.Optional;
 @RequestMapping("/todo")
 public class TodoController {
     private TodoRepository todoRepository;
+    private TaskRepository taskRepository;
 
-    public TodoController(@Autowired TodoRepository todoRepository) {
+    public TodoController(@Autowired TodoRepository todoRepository, @Autowired TaskRepository taskRepository) {
         this.todoRepository = todoRepository;
+        this.taskRepository = taskRepository;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -23,6 +25,7 @@ public class TodoController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public void createNewTodo(@RequestBody Todo todo, User user) {
         todo.setOwner(user);
+        taskRepository.save(todo.getTaskList());
         todoRepository.save(todo);
     }
 
@@ -37,6 +40,7 @@ public class TodoController {
         if (todoOptional.isPresent()) {
             todo.setId(id);
             todo.setOwner(user);
+            taskRepository.save(todo.getTaskList());
             todoRepository.save(todo);
         }
     }

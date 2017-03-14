@@ -1,5 +1,6 @@
 package pl.pr0gramista.todo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pl.pr0gramista.user.User;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties({"owner"})
 public class Todo {
     @Id
     @GeneratedValue
@@ -17,7 +19,7 @@ public class Todo {
     @NotNull
     private String title;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true)
     private List<Task> taskList;
 
     @OneToOne
