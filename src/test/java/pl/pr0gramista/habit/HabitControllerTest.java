@@ -1,8 +1,10 @@
 package pl.pr0gramista.habit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +45,8 @@ public class HabitControllerTest {
     private MockMvc mockMvc;
     private List<Habit> defaultHabits;
 
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Before
     public void before() {
         habitController = new HabitController(habitRepository, userService);
@@ -63,37 +67,39 @@ public class HabitControllerTest {
 
     @Test
     public void create() throws Exception {
-        List<Habit> habits = new LinkedList<>(defaultHabits);
+        //This is used as a request body
+        Habit modifiedHabit = new Habit.HabitBuilder("6")
+                .description("xxwxw")
+                .expReward(400.23F)
+                .coinReward(1.0F)
+                .build();
 
-        when(habitRepository.save(any(Habit.class))).then(
-                invocation -> {
-                    habits.add(invocation.getArgument(0));
-                    return invocation.getArgument(0);
-                }
-        );
-
-        mockMvc.perform(post("/habit/").content(
-                "{\n" +
-                        "    \"expReward\": 400.23,\n" +
-                        "    \"coinReward\": 1.0,\n" +
-                        "    \"title\": \"6\",\n" +
-                        "    \"description\": \"xxwxw\"\n" +
-                        "}").contentType(MediaType.APPLICATION_JSON_UTF8))
+        mockMvc.perform(post("/habit/")
+                .content(mapper.writeValueAsString(modifiedHabit))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
-        assertThat(habits, hasItem(allOf(
+        ArgumentCaptor<Habit> captor = ArgumentCaptor.forClass(Habit.class);
+        verify(habitRepository, atMost(1)).save(captor.capture());
+        assertThat(captor.getValue(), allOf(
+                hasProperty("id", is(nullValue())),
                 hasProperty("expReward", is(400.23F)),
                 hasProperty("coinReward", is(1.0F)),
                 hasProperty("title", is("6")),
-                hasProperty("description", is("xxwxw"))
-        )));
+                hasProperty("description", is("xxwxw")),
+                hasProperty("owner", is(notNullValue()))
+        ));
     }
 
     @Test
     public void read() throws Exception {
         //Just one habit
         List<Habit> habit = new LinkedList<>();
-        habit.add(new Habit(400, 600, "Title 4", "Description 4"));
+        habit.add(new Habit.HabitBuilder("Title 4")
+                .description("Description 4")
+                .expReward(400F)
+                .coinReward(600F)
+                .build());
 
         when(habitRepository.findAllByOwner(any())).thenReturn(habit);
 
@@ -109,21 +115,23 @@ public class HabitControllerTest {
         Habit habitToModify = habits.get(1);
 
         when(habitRepository.findOneByIdAndOwner(eq(1L), any(User.class))).thenReturn(Optional.of(habitToModify));
-        when(habitRepository.save(any(Habit.class))).then(invocation -> {
-            habitToModify.copy((Habit) invocation.getArgument(0));
-            return habitToModify;
-        });
 
-        mockMvc.perform(put("/habit/1").content(
-                "{\n" +
-                        "    \"expReward\": 400.23,\n" +
-                        "    \"coinReward\": 1.0,\n" +
-                        "    \"title\": \"6\",\n" +
-                        "    \"description\": \"xxwxw\"\n" +
-                        "}").contentType(MediaType.APPLICATION_JSON_UTF8))
+        //This is used as a request body
+        Habit modifiedHabit = new Habit.HabitBuilder("6")
+                .description("xxwxw")
+                .expReward(400.23F)
+                .coinReward(1.0F)
+                .build();
+
+        mockMvc.perform(put("/habit/1")
+                .content(mapper.writeValueAsString(modifiedHabit))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
-        assertThat(habitToModify, allOf(
+        ArgumentCaptor<Habit> captor = ArgumentCaptor.forClass(Habit.class);
+        verify(habitRepository, atMost(1)).save(captor.capture());
+
+        assertThat(captor.getValue(), allOf(
                 hasProperty("id", is(1L)),
                 hasProperty("expReward", is(400.23F)),
                 hasProperty("coinReward", is(1.0F)),

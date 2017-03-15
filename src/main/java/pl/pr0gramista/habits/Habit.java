@@ -28,6 +28,15 @@ public class Habit {
     public Habit() {
     }
 
+    public Habit(HabitBuilder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.expReward = builder.expReward;
+        this.coinReward = builder.coinReward;
+        this.owner = builder.owner;
+        this.description = builder.description;
+    }
+
     public Habit(float expReward, float coinReward, String title, String description) {
         this.expReward = expReward;
         this.coinReward = coinReward;
@@ -118,12 +127,53 @@ public class Habit {
                 '}';
     }
 
-    public void copy(Habit habit) {
-        setId(habit.getId());
-        setTitle(habit.getTitle());
-        setDescription(habit.getDescription());
-        setOwner(habit.getOwner());
-        setCoinReward(habit.getCoinReward());
-        setExpReward(habit.getExpReward());
+    public static class HabitBuilder {
+        private Long id;
+        private String title;
+        private String description;
+        private User owner;
+        private float expReward;
+        private float coinReward;
+
+        public HabitBuilder(Habit habitToCopy) {
+            id = habitToCopy.getId();
+            title = habitToCopy.getTitle();
+            owner = habitToCopy.getOwner();
+            expReward = habitToCopy.getExpReward();
+            coinReward = habitToCopy.getCoinReward();
+        }
+
+        public HabitBuilder(String title) {
+            this.title = title;
+        }
+
+        public Habit.HabitBuilder owner(User user) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Habit.HabitBuilder id(long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Habit.HabitBuilder expReward(float expReward) {
+            this.expReward = expReward;
+            return this;
+        }
+
+        public Habit.HabitBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Habit.HabitBuilder coinReward(float coinReward) {
+            this.coinReward = coinReward;
+            return this;
+        }
+
+        public Habit build() {
+            return new Habit(this);
+        }
     }
 }
