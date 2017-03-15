@@ -88,8 +88,10 @@ public class TodoControllerTest {
         verify(taskRepository, atMost(1)).save(exampleTodo.getTaskList());
         verify(todoRepository).save(argument.capture());
         assertThat(argument.getValue(), allOf(
+                hasProperty("id", is(nullValue())),
                 hasProperty("title", is(exampleTodo.getTitle())),
-                hasProperty("taskList", is(exampleTodo.getTaskList()))
+                hasProperty("taskList", is(exampleTodo.getTaskList())),
+                hasProperty("owner", is(notNullValue()))
         ));
     }
 

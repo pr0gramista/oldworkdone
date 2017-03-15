@@ -136,7 +136,8 @@ public class HabitControllerTest {
                 hasProperty("expReward", is(400.23F)),
                 hasProperty("coinReward", is(1.0F)),
                 hasProperty("title", is("6")),
-                hasProperty("description", is("xxwxw"))
+                hasProperty("description", is("xxwxw")),
+                hasProperty("owner", is(notNullValue()))
         ));
     }
 

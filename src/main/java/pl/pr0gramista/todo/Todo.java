@@ -100,7 +100,7 @@ public class Todo {
     }
 
     public static class TodoBuilder {
-        private long id;
+        private Long id;
         private String title;
         private List<Task> taskList = new LinkedList<>();
         private User owner;
