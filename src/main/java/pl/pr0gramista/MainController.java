@@ -13,7 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
     @RequestMapping("")
-    public String index() {
+    public String index(Authentication auth) {
+        if (auth != null && auth.isAuthenticated()) {
+            return "redirect:/dashboard";
+        }
         return "index";
     }
 
@@ -34,5 +37,13 @@ public class MainController {
     @ResponseBody
     public Object testAuth(Authentication auth) {
         return auth;
+    }
+
+    @RequestMapping("/dashboard")
+    public String dashboard(Authentication auth) {
+        if (auth != null && auth.isAuthenticated()) {
+            return "dashboard";
+        }
+        return "redirect:/";
     }
 }
