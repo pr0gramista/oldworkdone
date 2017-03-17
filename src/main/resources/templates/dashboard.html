@@ -1,13 +1,118 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test site</title>
+    <title>Dashboard | Workdone</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="/css/style.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet">
+    <script
+            src="https://code.jquery.com/jquery-3.2.0.min.js"
+            integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+            crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="/css/materialize.css">
+    <script src="/js/bin/materialize.min.js"></script>
+    <link href="/css/style.css" rel="stylesheet"/>
 </head>
 <body>
+<ul id="sidenav" class="side-nav fixed">
+    <div class="logo">
+        <img src="/images/workdone-logo-256.png">
+    </div>
+    <li><a href="#!">Habits</a></li>
+    <li><a href="#!">Tasks</a></li>
+    <li><a href="#!">Profile</a></li>
+    <li><a href="#!">Settings</a></li>
+</ul>
+<header>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Workdone</a>
+            <a href="#" data-activates="sidenav" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<main>
+    <div id="app">
+        <div class="row">
+            <todo v-for="todo in todos" v-bind:todo="todo" :key="todo.id"></todo>
+        </div>
+    </div>
+    <div class="fixed-action-btn">
+        <button class="btn-floating btn-large waves-effect waves-light amber">
+            <i class="large material-icons">add</i>
+        </button>
+    </div>
+</main>
+<script>
+  $(".button-collapse").sideNav({
+      menuWidth: 240,
+      draggable: true
+  });
+  var app = new Vue({
+    el: '#app',
+    data: {
+      todos: [],
+      newTodo: ''
+    },
+    methods: {
+      addTodo: function () {
+        app.todos.push({ text: app.newTodo });
+        app.newTodo = '';
+      }
+    }
+  })
+  axios.get("/todo/")
+  .then(function (response) {
+    for (var todo in response.data) {
+      app.todos.push(response.data[todo]);
+    }
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+
+  Vue.component('todo', {
+    props: ['todo'],
+    methods: {
+      disableTask: function(task) {
+        console.log(task);
+        if(task.checked) {
+          return ['task_disabled'];
+        }
+        else {
+          return [];
+        }
+      }
+    },
+    template:
+    '<div class="todo col s12 m4 l3">' +
+    '  <ul class="collection with-header">' +
+    '    <li class="collection-header"><h4>{{ todo.title }}</h4></li>' +
+    '    <li class="collection-item" v-for="(task, index) in todo.taskList">' +
+    '      <input type="checkbox" v-model="task.checked" v-bind:id="\'list-\'+index" class="mdl-checkbox__input" />' +
+    '      <label v-bind:for="\'list-\'+index">' +
+    '        <input type="text" class="invisible" v-model="task.content" v-bind:id="\'list-textfield-\'+index">' +
+    '      </label>' +
+    '    </li>' +
+    '    <li class="collection-item new-item">' +
+    '      <input type="checkbox" disabled v-bind:id="newtask" class="mdl-checkbox__input" />' +
+    '      <label v-bind:for="newtask">' +
+    '        <input type="text" placeholder="..." class="invisible">' +
+    '      </label>' +
+    '    </li>' +
+    '  </ul>' +
+    '</div>'
+  })
+
+
+</script>
 </body>
 </html>
