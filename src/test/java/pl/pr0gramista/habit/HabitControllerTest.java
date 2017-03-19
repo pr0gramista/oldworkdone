@@ -74,6 +74,8 @@ public class HabitControllerTest {
                 .coinReward(1.0F)
                 .build();
 
+        when(habitRepository.save(any(Habit.class))).thenReturn(new Habit.HabitBuilder(modifiedHabit).id(1).build());
+
         mockMvc.perform(post("/habit/")
                 .content(mapper.writeValueAsString(modifiedHabit))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))

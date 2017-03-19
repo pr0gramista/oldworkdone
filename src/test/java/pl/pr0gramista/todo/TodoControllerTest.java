@@ -77,6 +77,8 @@ public class TodoControllerTest {
 
     @Test
     public void create() throws Exception {
+        when(todoRepository.save(any(Todo.class))).thenReturn(new Todo.TodoBuilder(exampleTodo).id(1).build());
+
         mockMvc.perform(post("/todo/")
                 .content(exampleTodoJson)
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
