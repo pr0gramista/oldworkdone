@@ -23,10 +23,10 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void createNewTodo(@RequestBody Todo todo, User user) {
+    public Long createNewTodo(@RequestBody Todo todo, User user) {
         todo.setOwner(user);
         taskRepository.save(todo.getTaskList());
-        todoRepository.save(todo);
+        return todoRepository.save(todo).getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

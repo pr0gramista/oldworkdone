@@ -26,9 +26,9 @@ public class HabitController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public void createNewHabit(@RequestBody Habit habit, User user) {
+    public Long createNewHabit(@RequestBody Habit habit, User user) {
         habit.setOwner(user);
-        habitRepository.save(habit);
+        return habitRepository.save(habit).getId();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

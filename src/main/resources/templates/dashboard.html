@@ -10,7 +10,9 @@
             integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuex"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/css/materialize.css">
     <script src="/js/bin/materialize.min.js"></script>
@@ -34,85 +36,128 @@
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="#">Profile</a></li>
                 <li><a href="#">Settings</a></li>
+                <li><a v-on:click="refreshTodos" href="#"><i class="material-icons">refresh</i></a></li>
             </ul>
         </div>
     </nav>
 </header>
-<main>
-    <div id="app">
+
+<div id="app">
+    <main>
         <div class="row">
-            <todo v-for="todo in todos" v-bind:todo="todo" :key="todo.id"></todo>
+            <habit v-for="habit in habits" v-bind:habit="habit" :key="habit.id"></todo>
         </div>
-    </div>
-    <div class="fixed-action-btn">
-        <button class="btn-floating btn-large waves-effect waves-light amber">
-            <i class="large material-icons">add</i>
+        <div class="fixed-action-btn">
+            <button @click="addNewHabit" class="btn-floating btn-large waves-effect waves-light amber">
+                <i class="large material-icons">add</i>
         </button>
-    </div>
-</main>
+        </div>
+    </main>
+</div>
 <script>
+
   $(".button-collapse").sideNav({
       menuWidth: 240,
       draggable: true
   });
+
   var app = new Vue({
     el: '#app',
     data: {
-      todos: [],
-      newTodo: ''
+      habits: []
     },
     methods: {
-      addTodo: function () {
-        app.todos.push({ text: app.newTodo });
-        app.newTodo = '';
+      addNewHabit: function() {
+        var newHabit = { title: 'Title', description: 'Description', coinReward: 5.0, expReward: 20.0};
+        axios.post("/habit/", newHabit)
+        .then(function (response) {
+          newHabit.id = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        app.habits.push(newHabit)
+      },
+      refreshHabits: function() {
+        axios.get("/habit/").then(function(response) {
+          for (var i in response.data) {
+            //Check if habits already contains this element
+            var existingIndex = app.habits.findIndex(function(e) { return e.id == response.data[i].id });
+            if(existingIndex != -1)
+            {
+              //Contains, update value
+              //Vue code for: habits[habit] = response.data[habit]
+              Vue.set(app.habits, existingIndex, response.data[i])
+            }
+            else {
+              //Doesn't contain -> add to habits
+              app.habits.push(response.data[i]);
+            }
+          }
+
+          //Look for habits that should not exist
+          app.habits = app.habits.filter(function (habit) {
+            return response.data.some(function (e) { return e.id == habit.id });
+          })
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
       }
     }
   })
-  axios.get("/todo/")
-  .then(function (response) {
-    for (var todo in response.data) {
-      app.todos.push(response.data[todo]);
-    }
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  })
 
-  Vue.component('todo', {
-    props: ['todo'],
+  setInterval(function() { app.refreshHabits() }, 5000);
+
+  Vue.component('habit', {
+    props: ['habit'],
+    data: function () {
+      return {
+        is_editing: false,
+        edit_title: '',
+        edit_description: ''
+      }
+    },
     methods: {
-      disableTask: function(task) {
-        console.log(task);
-        if(task.checked) {
-          return ['task_disabled'];
+      editHabit: function () {
+        if(!this.is_editing) {
+          this.is_editing = true;
+
+          this.edit_title = this.habit.title;
+          this.edit_description = this.habit.description;
         }
         else {
-          return [];
+          this.is_editing = false;
+          this.habit.title = this.edit_title;
+          this.habit.description = this.edit_description;
+
+          //Save to backend
+          if(this.habit.id != undefined) {
+            axios.put("/habit/" + this.habit.id, this.habit).catch(function (error) {
+              console.log(error);
+            })
+          }
         }
       }
     },
     template:
-    '<div class="todo col s12 m4 l3">' +
-    '  <ul class="collection with-header">' +
-    '    <li class="collection-header"><h4>{{ todo.title }}</h4></li>' +
-    '    <li class="collection-item" v-for="(task, index) in todo.taskList">' +
-    '      <input type="checkbox" v-model="task.checked" v-bind:id="\'list-\'+index" class="mdl-checkbox__input" />' +
-    '      <label v-bind:for="\'list-\'+index">' +
-    '        <input type="text" class="invisible" v-model="task.content" v-bind:id="\'list-textfield-\'+index">' +
-    '      </label>' +
-    '    </li>' +
-    '    <li class="collection-item new-item">' +
-    '      <input type="checkbox" disabled v-bind:id="newtask" class="mdl-checkbox__input" />' +
-    '      <label v-bind:for="newtask">' +
-    '        <input type="text" placeholder="..." class="invisible">' +
-    '      </label>' +
-    '    </li>' +
-    '  </ul>' +
-    '</div>'
+        `<div class="habit col s12 m6 l4">
+          <div class="card">
+            <div class="card-content">
+              <span v-if="!is_editing" class="card-title">{{ habit.title }}<i v-if="!is_editing" @click="editHabit" class="material-icons right">edit</i></span>
+              <i v-if="is_editing" @click="editHabit" class="material-icons right">done</i>
+              <input type="text" v-if="is_editing" v-model="edit_title" class="card-title inline-block" />
+              <p v-if="!is_editing">{{ habit.description }}</p>
+              <textarea v-if="is_editing" v-model="edit_description" />
+            </div>
+            <div class="card-action">
+              <button class="waves-effect waves-light btn">Done</button>
+            </div>
+          </div>
+        </div>`
   })
 
-
+  app.refreshHabits();
 </script>
 </body>
 </html>
