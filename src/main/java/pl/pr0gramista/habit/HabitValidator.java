@@ -22,13 +22,13 @@ public class HabitValidator implements Validator {
 
         Habit habit = (Habit) target;
         if (habit.getOwner() != null)
-            errors.reject("owner", "owner.assignedbyuser");
+            errors.rejectValue("owner", "owner.assignedbyuser");
 
         if (habit.getText().length() > 255)
-            errors.reject("text", "text.toolong");
+            errors.rejectValue("text", "text.toolong");
 
         if (habit.getTags().size() > 30)
-            errors.reject("tags", "tags.toobig");
+            errors.rejectValue("tags", "tags.toobig");
 
         habit.getTags().forEach(s -> {
             if (s.length() > 255)
