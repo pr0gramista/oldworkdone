@@ -14,7 +14,6 @@ public class HabitValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        System.out.println("Validating habit");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "text", "text.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "expReward", "expReward.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "coinReward", "coinReward.empty");

@@ -129,8 +129,8 @@ public class Habit {
             this.text = text;
         }
 
-        public Habit.HabitBuilder owner(User user) {
-            this.owner = owner;
+        public Habit.HabitBuilder owner(User newOwner) {
+            this.owner = newOwner;
             return this;
         }
 
