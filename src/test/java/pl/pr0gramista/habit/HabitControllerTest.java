@@ -11,17 +11,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import pl.pr0gramista.habits.Habit;
-import pl.pr0gramista.habits.HabitController;
-import pl.pr0gramista.habits.HabitRepository;
+import pl.pr0gramista.enums.CoinAmount;
+import pl.pr0gramista.enums.Color;
+import pl.pr0gramista.enums.ExperienceAmount;
 import pl.pr0gramista.user.User;
 import pl.pr0gramista.user.UserService;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -42,36 +40,30 @@ public class HabitControllerTest {
     private UserService userService;
 
     private HabitController habitController;
+
+    @Mock
+    private HabitValidator habitValidator;
+
     private MockMvc mockMvc;
-    private List<Habit> defaultHabits;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     @Before
     public void before() {
-        habitController = new HabitController(habitRepository, userService);
+        habitController = new HabitController(habitRepository, habitValidator);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(habitController)
                 .build();
-
-        //Generate habits
-        defaultHabits =
-                IntStream.range(0, 5).mapToObj(value ->
-                        new Habit(
-                                100 * value,
-                                150 * value,
-                                "Title " + String.valueOf(value),
-                                "Description " + String.valueOf(value)))
-                        .collect(Collectors.toList());
     }
 
     @Test
     public void create() throws Exception {
         //This is used as a request body
-        Habit modifiedHabit = new Habit.HabitBuilder("6")
-                .description("xxwxw")
-                .expReward(400.23F)
-                .coinReward(1.0F)
+        Habit modifiedHabit = new Habit.HabitBuilder("text is awesome")
+                .expReward(ExperienceAmount.HIGH)
+                .coinReward(CoinAmount.HIGH)
+                .color(Color.RED)
+                .tags("tag1")
                 .build();
 
         when(habitRepository.save(any(Habit.class))).thenReturn(new Habit.HabitBuilder(modifiedHabit).id(1).build());
@@ -85,10 +77,10 @@ public class HabitControllerTest {
         verify(habitRepository, atMost(1)).save(captor.capture());
         assertThat(captor.getValue(), allOf(
                 hasProperty("id", is(nullValue())),
-                hasProperty("expReward", is(400.23F)),
-                hasProperty("coinReward", is(1.0F)),
-                hasProperty("title", is("6")),
-                hasProperty("description", is("xxwxw")),
+                hasProperty("expReward", is(ExperienceAmount.HIGH)),
+                hasProperty("coinReward", is(CoinAmount.HIGH)),
+                hasProperty("text", is("text is awesome")),
+                hasProperty("color", is(Color.RED)),
                 hasProperty("owner", is(notNullValue()))
         ));
     }
@@ -97,32 +89,38 @@ public class HabitControllerTest {
     public void read() throws Exception {
         //Just one habit
         List<Habit> habit = new LinkedList<>();
-        habit.add(new Habit.HabitBuilder("Title 4")
-                .description("Description 4")
-                .expReward(400F)
-                .coinReward(600F)
+        habit.add(new Habit.HabitBuilder("Text 4")
+                .expReward(ExperienceAmount.MEDIUM)
+                .coinReward(CoinAmount.SMALL)
+                .color(Color.BLUE)
+                .tags("tag1", "tag2")
                 .build());
 
         when(habitRepository.findAllByOwner(any())).thenReturn(habit);
 
         mockMvc.perform(get("/habit/"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().json("[{'expReward':400.0, 'coinReward':600.0, 'title': 'Title 4', 'description': 'Description 4'}]"))
+                .andExpect(content().json("[{'expReward': 'MEDIUM', 'coinReward': 'SMALL', 'text': 'Text 4', 'color': 'BLUE', 'tags': ['tag1', 'tag2']}]"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void update() throws Exception {
-        List<Habit> habits = new LinkedList<>(defaultHabits);
-        Habit habitToModify = habits.get(1);
+        Habit habitToModify = new Habit.HabitBuilder("Text 4")
+                .expReward(ExperienceAmount.MEDIUM)
+                .coinReward(CoinAmount.SMALL)
+                .color(Color.BLUE)
+                .tags("tag1")
+                .build();
 
         when(habitRepository.findOneByIdAndOwner(eq(1L), any(User.class))).thenReturn(Optional.of(habitToModify));
 
         //This is used as a request body
-        Habit modifiedHabit = new Habit.HabitBuilder("6")
-                .description("xxwxw")
-                .expReward(400.23F)
-                .coinReward(1.0F)
+        Habit modifiedHabit = new Habit.HabitBuilder("Yay!")
+                .color(Color.GREEN)
+                .expReward(ExperienceAmount.HIGH)
+                .coinReward(CoinAmount.MEDIUM)
+                .tags("tag2")
                 .build();
 
         mockMvc.perform(put("/habit/1")
@@ -135,11 +133,12 @@ public class HabitControllerTest {
 
         assertThat(captor.getValue(), allOf(
                 hasProperty("id", is(1L)),
-                hasProperty("expReward", is(400.23F)),
-                hasProperty("coinReward", is(1.0F)),
-                hasProperty("title", is("6")),
-                hasProperty("description", is("xxwxw")),
-                hasProperty("owner", is(notNullValue()))
+                hasProperty("expReward", is(ExperienceAmount.HIGH)),
+                hasProperty("coinReward", is(CoinAmount.MEDIUM)),
+                hasProperty("text", is("Yay!")),
+                hasProperty("color", is(Color.GREEN)),
+                hasProperty("owner", is(notNullValue())),
+                hasProperty("tags", hasItem("tag2"))
         ));
     }
 

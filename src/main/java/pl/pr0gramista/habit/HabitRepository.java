@@ -1,4 +1,4 @@
-package pl.pr0gramista.habits;
+package pl.pr0gramista.habit;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
