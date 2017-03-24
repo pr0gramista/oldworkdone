@@ -40,3 +40,25 @@ input.todo-title {
 .habit textarea:focus {
     outline: none;
 }
+
+.color-icon.red,
+.habit .card.color-red {
+  background-color: #D64541;
+}
+
+.color-icon.blue,
+.habit .card.color-blue {
+  background-color: #19B5FE;
+}
+
+.color-icon.green,
+.habit .card.color-green {
+  background-color: #87D37C;
+}
+
+.color-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  border: 3px solid #C9C9C9;
+}
