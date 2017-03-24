@@ -55,109 +55,11 @@
     </main>
 </div>
 <script>
-
   $(".button-collapse").sideNav({
       menuWidth: 240,
       draggable: true
   });
-
-  var app = new Vue({
-    el: '#app',
-    data: {
-      habits: []
-    },
-    methods: {
-      addNewHabit: function() {
-        var newHabit = { title: 'Title', description: 'Description', coinReward: 5.0, expReward: 20.0};
-        axios.post("/habit/", newHabit)
-        .then(function (response) {
-          newHabit.id = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        app.habits.push(newHabit)
-      },
-      refreshHabits: function() {
-        axios.get("/habit/").then(function(response) {
-          for (var i in response.data) {
-            //Check if habits already contains this element
-            var existingIndex = app.habits.findIndex(function(e) { return e.id == response.data[i].id });
-            if(existingIndex != -1)
-            {
-              //Contains, update value
-              //Vue code for: habits[habit] = response.data[habit]
-              Vue.set(app.habits, existingIndex, response.data[i])
-            }
-            else {
-              //Doesn't contain -> add to habits
-              app.habits.push(response.data[i]);
-            }
-          }
-
-          //Look for habits that should not exist
-          app.habits = app.habits.filter(function (habit) {
-            return response.data.some(function (e) { return e.id == habit.id });
-          })
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-      }
-    }
-  })
-
-  setInterval(function() { app.refreshHabits() }, 5000);
-
-  Vue.component('habit', {
-    props: ['habit'],
-    data: function () {
-      return {
-        is_editing: false,
-        edit_title: '',
-        edit_description: ''
-      }
-    },
-    methods: {
-      editHabit: function () {
-        if(!this.is_editing) {
-          this.is_editing = true;
-
-          this.edit_title = this.habit.title;
-          this.edit_description = this.habit.description;
-        }
-        else {
-          this.is_editing = false;
-          this.habit.title = this.edit_title;
-          this.habit.description = this.edit_description;
-
-          //Save to backend
-          if(this.habit.id != undefined) {
-            axios.put("/habit/" + this.habit.id, this.habit).catch(function (error) {
-              console.log(error);
-            })
-          }
-        }
-      }
-    },
-    template:
-        `<div class="habit col s12 m6 l4">
-          <div class="card">
-            <div class="card-content">
-              <span v-if="!is_editing" class="card-title">{{ habit.title }}<i v-if="!is_editing" @click="editHabit" class="material-icons right">edit</i></span>
-              <i v-if="is_editing" @click="editHabit" class="material-icons right">done</i>
-              <input type="text" v-if="is_editing" v-model="edit_title" class="card-title inline-block" />
-              <p v-if="!is_editing">{{ habit.description }}</p>
-              <textarea v-if="is_editing" v-model="edit_description" />
-            </div>
-            <div class="card-action">
-              <button class="waves-effect waves-light btn">Done</button>
-            </div>
-          </div>
-        </div>`
-  })
-
-  app.refreshHabits();
 </script>
+<script src="/app/app.js"></script>
 </body>
 </html>
