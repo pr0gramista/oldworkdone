@@ -29,6 +29,7 @@ var app = new Vue({
       axios.post("/habit/", newHabit).then(function (r) {
         newHabit.id = r.data; //id
         app.habits.push(newHabit);
+        newHabit.id = null;
       })
     },
     refreshTodos: function () {

@@ -47,6 +47,9 @@ public class HabitController {
         if (result.hasErrors())
             throw new BindException(result);
 
+        if (habit.getId() != null)
+            throw new IllegalArgumentException("ID must be null");
+
         habit.setOwner(user);
         return repository.save(habit).getId();
     }
