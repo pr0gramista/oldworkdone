@@ -12,16 +12,27 @@ var habitRepository = {
 var app = new Vue({
   el: '#app',
   data: {
-    habits: habitRepository.fetch()
+    habits: habitRepository.fetch(),
+    newHabit: {
+      text: "przykladowy tekst",
+      color: "RED",
+      expReward: "HIGH",
+      coinReward: "HIGH",
+      tags: []
+    }
   },
   watch: {
   },
   methods: {
     addNewHabit: function () {
-      
+      var newHabit = this.newHabit;
+      axios.post("/habit/", newHabit).then(function (r) {
+        newHabit.id = r.data; //id
+        app.habits.push(newHabit);
+      })
     },
     refreshTodos: function () {
-
+      habitRepository.fetch();
     }
   }
 })
@@ -67,3 +78,5 @@ Vue.component('habit', {
     </div>
   </div>`
 })
+
+setInterval(app.refreshTodos, 5000);
