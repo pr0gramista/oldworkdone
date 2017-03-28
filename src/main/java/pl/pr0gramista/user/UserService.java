@@ -37,4 +37,19 @@ public class UserService {
         }
         return null;
     }
+
+    public void addCoins(User user, int amount) {
+        user.setCoins(user.getCoins() + amount);
+
+        userRepository.save(user);
+    }
+
+    public void addExperience(User user, int amount) {
+        user.setExperience(user.getExperience() + amount);
+
+        //TODO: new level
+        user.setLevel(user.getExperience() / 100);
+
+        userRepository.save(user);
+    }
 }

@@ -14,6 +14,12 @@ public class User {
     @NotNull
     private String uid;
 
+    private int coins;
+
+    private int experience;
+
+    private int level;
+
     public User() {
     }
 
@@ -35,5 +41,29 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
