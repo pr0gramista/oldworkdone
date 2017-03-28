@@ -15,8 +15,8 @@ import pl.pr0gramista.enums.CoinAmount;
 import pl.pr0gramista.enums.Color;
 import pl.pr0gramista.enums.ExperienceAmount;
 import pl.pr0gramista.user.User;
-import pl.pr0gramista.user.UserService;
 
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +37,7 @@ public class HabitControllerTest {
     private HabitRepository habitRepository;
 
     @Mock
-    private UserService userService;
+    private HabitService habitService;
 
     private HabitController habitController;
 
@@ -50,7 +50,7 @@ public class HabitControllerTest {
 
     @Before
     public void before() {
-        habitController = new HabitController(habitRepository, habitValidator);
+        habitController = new HabitController(habitRepository, habitValidator, habitService);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(habitController)
                 .build();
@@ -148,5 +148,30 @@ public class HabitControllerTest {
                 .andExpect(status().isOk());
 
         verify(habitRepository, atLeastOnce()).removeByIdAndOwner(eq(1L), any(User.class));
+    }
+
+    @Test
+    public void complete() throws Exception {
+        Habit habitToComplete = new Habit.HabitBuilder("CompleteMe!")
+                .expReward(ExperienceAmount.MEDIUM)
+                .coinReward(CoinAmount.SMALL)
+                .color(Color.BLUE)
+                .tags("tag1", "tag2")
+                .build();
+
+        when(habitRepository.findOneByIdAndOwner(eq(2L), any(User.class))).thenReturn(Optional.of(habitToComplete));
+        when(habitService.complete(any(Habit.class))).thenReturn(new HabitCompletion(
+                1000,
+                1000,
+                ZonedDateTime.now(),
+                habitToComplete
+        ));
+
+        mockMvc.perform(get("/habit/2/done"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        verify(habitRepository, atLeastOnce()).findOneByIdAndOwner(eq(2L), any(User.class));
+        verify(habitService, atMost(1)).complete(habitToComplete);
     }
 }

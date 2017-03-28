@@ -9,6 +9,7 @@ import pl.pr0gramista.enums.Color;
 import pl.pr0gramista.enums.ExperienceAmount;
 import pl.pr0gramista.user.User;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -19,10 +20,14 @@ public class HabitController {
 
     private HabitValidator validator;
 
+    private HabitService habitService;
+
     public HabitController(@Autowired HabitRepository habitRepository,
-                           @Autowired HabitValidator habitValidator) {
+                           @Autowired HabitValidator habitValidator,
+                           @Autowired HabitService habitService) {
         this.repository = habitRepository;
         this.validator = habitValidator;
+        this.habitService = habitService;
     }
 
     @RequestMapping("/test")
@@ -72,5 +77,15 @@ public class HabitController {
             habit.setOwner(user);
             repository.save(habit);
         }
+    }
+
+    @RequestMapping(value = "/{id}/done")
+    public HabitCompletion habitDone(@PathVariable long id, User user) {
+        Optional<Habit> habitOptional = repository.findOneByIdAndOwner(id, user);
+        if (habitOptional.isPresent()) {
+            //TODO: save the completion
+            return habitService.complete(habitOptional.get());
+        } else
+            throw new NoSuchElementException("No such habit with that id");
     }
 }
