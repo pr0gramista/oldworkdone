@@ -20,6 +20,9 @@ public class FakeUserArgumentResolver implements HandlerMethodArgumentResolver {
         //Arbitrary values
         fakeUser.setId(424L);
         fakeUser.setUid("0284024804");
+        fakeUser.setExperience(987);
+        fakeUser.setCoins(42);
+        fakeUser.setLevel(2);
     }
 
     @Override

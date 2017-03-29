@@ -1,11 +1,14 @@
 package pl.pr0gramista.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@JsonIgnoreProperties({"id"})
 public class User {
     @Id
     @GeneratedValue
@@ -65,5 +68,16 @@ public class User {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", uid='" + uid + '\'' +
+                ", coins=" + coins +
+                ", experience=" + experience +
+                ", level=" + level +
+                '}';
     }
 }
