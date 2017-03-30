@@ -2,6 +2,7 @@ package pl.pr0gramista.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ public class User {
     private Long id;
 
     @NotNull
+    @Column(unique = true)
     private String uid;
 
     private int coins;
