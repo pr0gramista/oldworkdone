@@ -15,20 +15,23 @@
     <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="/css/materialize.css">
-    <script src="/js/bin/materialize.min.js"></script>
     <link href="/css/style.css" rel="stylesheet"/>
 </head>
 <body>
-<ul id="sidenav" class="side-nav fixed">
-    <div class="logo">
-        <img src="/images/workdone-logo-256.png">
-    </div>
-    <li><a href="#!">Habits</a></li>
-    <li><a href="#!">Tasks</a></li>
-    <li><a href="#!">Profile</a></li>
-    <li><a href="#!">Settings</a></li>
-</ul>
-<header>
+<div id="app">
+    <header>
+        <ul id="sidenav" class="side-nav fixed">
+            <div class="logo">
+                <img src="/images/workdone-logo-256.png">
+            </div>
+            <div class="profile">
+                <profile :user="user"></profile>
+            </div>
+            <li><a href="#!">Habits</a></li>
+            <li><a href="#!">Tasks</a></li>
+            <li><a href="#!">Profile</a></li>
+            <li><a href="#!">Settings</a></li>
+        </ul>
     <nav>
         <div class="nav-wrapper">
             <a href="#" class="brand-logo center">Workdone</a>
@@ -41,7 +44,7 @@
         </div>
     </nav>
 </header>
-<div id="app">
+    <div>
     <main>
         <a @click="refreshTodos" href="#"><i class="material-icons">refresh</i></a>
         <div class="row">
@@ -54,12 +57,15 @@
         </div>
     </main>
 </div>
+</div>
+<script src="/app/components.js"></script>
+<script src="/app/app.js"></script>
+<script src="/js/bin/materialize.min.js"></script>
 <script>
   $(".button-collapse").sideNav({
       menuWidth: 240,
       draggable: true
   });
 </script>
-<script src="/app/app.js"></script>
 </body>
 </html>
