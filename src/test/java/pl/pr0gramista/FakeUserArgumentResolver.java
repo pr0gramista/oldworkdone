@@ -23,6 +23,8 @@ public class FakeUserArgumentResolver implements HandlerMethodArgumentResolver {
         fakeUser.setExperience(987);
         fakeUser.setCoins(42);
         fakeUser.setLevel(2);
+        fakeUser.setPhoto("wowphoto.png");
+        fakeUser.setName("Kamil Buntownik");
     }
 
     @Override
