@@ -62,3 +62,26 @@ input.todo-title {
   border-radius: 16px;
   border: 3px solid #C9C9C9;
 }
+
+.profile h4 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.profile .coins {
+  color: #F9BF3B;
+}
+
+.profile .exp {
+  color: #22313F;
+}
+
+.profile i {
+  vertical-align: middle;
+}
+
+.profile-picture {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+}

@@ -23,7 +23,11 @@ public class UserService {
             if (details.containsKey("sub")) {
                 String uid = details.get("sub");
 
-                return userRepository.findByUid(uid).orElseGet(() -> createNewUser(uid));
+                //TODO: think about the details
+                User user = userRepository.findByUid(uid).orElseGet(() -> createNewUser(uid));
+                user.setPhoto(details.get("picture"));
+                user.setName(details.get("name"));
+                return user;
             } else
                 throw new StrangeOAuthException("Property 'sub' was not found, therefore there is lack of uid for user");
         }

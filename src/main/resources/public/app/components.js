@@ -1,7 +1,13 @@
 Vue.component('profile', {
   props: ['user'],
   template:
-  `<div>{{user}}</div>`
+  `
+  <div class="profile center">
+    <img class="profile-picture center" :src="user.photo" />
+    <h4>{{ user.name }}</h4>
+    <i class="material-icons coins">attach_money</i> {{ user.coins }} | <i class="material-icons exp">school</i> {{ user.level }}
+  </div>
+  `
 })
 
 Vue.component('habit', {
