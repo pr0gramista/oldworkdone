@@ -1,3 +1,8 @@
+var levelGenerator = function(l) {
+  l = l - 1;
+  return l*l*100 + l*200 + 100;
+}
+
 var habitRepository = {
   fetch: function () {
     axios.get("/habit/").then(function (r) {

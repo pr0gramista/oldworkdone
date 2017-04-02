@@ -2,10 +2,7 @@ package pl.pr0gramista;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.pr0gramista.generators.CoinGenerator;
-import pl.pr0gramista.generators.ExperienceGenerator;
-import pl.pr0gramista.generators.InRangeBaseCoinGenerator;
-import pl.pr0gramista.generators.InRangeBaseExperienceGenerator;
+import pl.pr0gramista.generators.*;
 
 @Configuration
 public class GeneratorConfig {
@@ -18,5 +15,10 @@ public class GeneratorConfig {
     @Bean
     public ExperienceGenerator expierenceGenerator() {
         return new InRangeBaseExperienceGenerator(50, 150);
+    }
+
+    @Bean
+    public LevelGenerator levelGenerator() {
+        return new MillionLevelGenerator();
     }
 }

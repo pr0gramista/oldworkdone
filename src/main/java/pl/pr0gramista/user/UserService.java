@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 import pl.pr0gramista.exception.StrangeOAuthException;
+import pl.pr0gramista.generators.LevelGenerator;
 
 import java.util.Map;
 
@@ -12,8 +13,11 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public UserService(@Autowired UserRepository userRepository) {
+    private LevelGenerator levelGenerator;
+
+    public UserService(@Autowired UserRepository userRepository, @Autowired LevelGenerator levelGenerator) {
         this.userRepository = userRepository;
+        this.levelGenerator = levelGenerator;
     }
 
     public synchronized User getUserForOAuthentication(OAuth2Authentication authentication) {
@@ -49,8 +53,7 @@ public class UserService {
     public void addExperience(User user, int amount) {
         user.setExperience(user.getExperience() + amount);
 
-        //TODO: new level
-        user.setLevel(user.getExperience() / 100);
+        user.setLevel(levelGenerator.getLevel(user.getExperience()));
 
         userRepository.save(user);
     }

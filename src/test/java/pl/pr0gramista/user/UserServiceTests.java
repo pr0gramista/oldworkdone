@@ -5,9 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import pl.pr0gramista.generators.LevelGenerator;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTests {
@@ -15,11 +18,14 @@ public class UserServiceTests {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    LevelGenerator levelGenerator;
+
     UserService userService;
 
     @Before
     public void setUp() throws Exception {
-        userService = new UserService(userRepository);
+        userService = new UserService(userRepository, levelGenerator);
     }
 
     @Test
@@ -34,6 +40,8 @@ public class UserServiceTests {
 
     @Test
     public void giveUserExperience() throws Exception {
+        when(levelGenerator.getLevel(anyInt())).thenReturn(5);
+
         User user = new User();
         assertThat(user.getExperience(), is(0));
 

@@ -2,7 +2,10 @@ Vue.component('profile', {
   props: ['user'],
   computed: {
     levelStyle: function() {
-      return "width: " + this.user.experience / ((this.user.level + 1) * 100) * 100 + "%;";
+      var currentLevelExperience = levelGenerator(this.user.level)
+      var deltaCurrentLevelExperience = this.user.experience - currentLevelExperience;
+      var deltaNextLevelExperience = levelGenerator(this.user.level + 1) - currentLevelExperience;
+      return "width: " + deltaCurrentLevelExperience/deltaNextLevelExperience * 100 + "%;";
     }
   },
   template:
