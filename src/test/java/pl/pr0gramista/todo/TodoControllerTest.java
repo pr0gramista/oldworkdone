@@ -58,18 +58,18 @@ public class TodoControllerTest {
 
         //Make first example
         exampleTodo = new Todo.TodoBuilder("Summer time")
-                .withTask(new Task("Ride a bike", 0))
-                .withTask(new Task("Clean garage", 5))
-                .withTask(new Task("Learn to play", 2))
+                .withTask(new Task("Ride a bike"))
+                .withTask(new Task("Clean garage"))
+                .withTask(new Task("Learn to play"))
                 .build();
         exampleTodoJson = mapper.writeValueAsString(exampleTodo);
         System.out.println(exampleTodoJson);
 
         //Make second example
         exampleTodo2 = new Todo.TodoBuilder("Winter time")
-                .withTask(new Task("Take a long nap", 5))
-                .withTask(new Task("Throw snowballs", 7))
-                .withTask(new Task("Make a snowman", 1))
+                .withTask(new Task("Take a long nap"))
+                .withTask(new Task("Throw snowballs"))
+                .withTask(new Task("Make a snowman"))
                 .build();
         exampleTodoJson2 = mapper.writeValueAsString(exampleTodo2);
         System.out.println(exampleTodoJson2);
@@ -87,12 +87,12 @@ public class TodoControllerTest {
         //We can't use simply eq(exampleTodo) because User is being injected
         ArgumentCaptor<Todo> argument = ArgumentCaptor.forClass(Todo.class);
 
-        verify(taskRepository, atMost(1)).save(exampleTodo.getTaskList());
+        verify(taskRepository, atMost(1)).save(exampleTodo.getTasks());
         verify(todoRepository).save(argument.capture());
         assertThat(argument.getValue(), allOf(
                 hasProperty("id", is(nullValue())),
                 hasProperty("title", is(exampleTodo.getTitle())),
-                hasProperty("taskList", is(exampleTodo.getTaskList())),
+                hasProperty("tasks", is(exampleTodo.getTasks())),
                 hasProperty("owner", is(notNullValue()))
         ));
     }
@@ -117,7 +117,7 @@ public class TodoControllerTest {
                 .andExpect(status().isOk());
 
         Todo exampleTodo2WithId = new Todo.TodoBuilder(exampleTodo2).id(1).build();
-        verify(taskRepository, atMost(1)).save(exampleTodo2WithId.getTaskList());
+        verify(taskRepository, atMost(1)).save(exampleTodo2WithId.getTasks());
         verify(todoRepository, atMost(1)).save(exampleTodo2WithId);
     }
 

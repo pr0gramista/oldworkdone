@@ -25,7 +25,7 @@ public class TodoController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Long createNewTodo(@RequestBody Todo todo, User user) {
         todo.setOwner(user);
-        taskRepository.save(todo.getTaskList());
+        taskRepository.save(todo.getTasks());
         return todoRepository.save(todo).getId();
     }
 
@@ -40,7 +40,7 @@ public class TodoController {
         if (todoOptional.isPresent()) {
             todo.setId(id);
             todo.setOwner(user);
-            taskRepository.save(todo.getTaskList());
+            taskRepository.save(todo.getTasks());
             todoRepository.save(todo);
         }
     }

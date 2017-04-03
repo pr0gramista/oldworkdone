@@ -16,14 +16,11 @@ public class Task {
     @Size(max = 250)
     private String content;
 
-    private int priority = 0;
-
     public Task() {
     }
 
-    public Task(String content, int priority) {
+    public Task(String content) {
         this.content = content;
-        this.priority = priority;
     }
 
     public Long getId() {
@@ -42,14 +39,6 @@ public class Task {
         this.content = content;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,7 +46,6 @@ public class Task {
 
         Task task = (Task) o;
 
-        if (priority != task.priority) return false;
         if (id != null ? !id.equals(task.id) : task.id != null) return false;
         return content != null ? content.equals(task.content) : task.content == null;
     }
@@ -66,7 +54,6 @@ public class Task {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (content != null ? content.hashCode() : 0);
-        result = 31 * result + priority;
         return result;
     }
 
@@ -75,7 +62,6 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                ", priority=" + priority +
                 '}';
     }
 }
