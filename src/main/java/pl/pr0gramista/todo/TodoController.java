@@ -1,6 +1,8 @@
 package pl.pr0gramista.todo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.pr0gramista.user.User;
 
@@ -11,10 +13,14 @@ import java.util.Optional;
 public class TodoController {
     private TodoRepository todoRepository;
     private TaskRepository taskRepository;
+    private TodoValidator validator;
 
-    public TodoController(@Autowired TodoRepository todoRepository, @Autowired TaskRepository taskRepository) {
+    public TodoController(@Autowired TodoRepository todoRepository,
+                          @Autowired TaskRepository taskRepository,
+                          @Autowired TodoValidator validator) {
         this.todoRepository = todoRepository;
         this.taskRepository = taskRepository;
+        this.validator = validator;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -23,7 +29,12 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Long createNewTodo(@RequestBody Todo todo, User user) {
+    public Long createNewTodo(@RequestBody Todo todo, User user, BindingResult result) throws BindException {
+        validator.validate(todo, result);
+
+        if (result.hasErrors())
+            throw new BindException(result);
+
         todo.setOwner(user);
         taskRepository.save(todo.getTasks());
         return todoRepository.save(todo).getId();
@@ -35,7 +46,12 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void editTodo(@PathVariable long id, @RequestBody Todo todo, User user) {
+    public void editTodo(@PathVariable long id, @RequestBody Todo todo, User user, BindingResult result) throws BindException {
+        validator.validate(todo, result);
+
+        if (result.hasErrors())
+            throw new BindException(result);
+
         Optional<Todo> todoOptional = todoRepository.findOneByIdAndOwner(id, user);
         if (todoOptional.isPresent()) {
             todo.setId(id);

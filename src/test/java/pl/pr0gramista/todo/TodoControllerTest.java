@@ -37,6 +37,9 @@ public class TodoControllerTest {
     private TaskRepository taskRepository;
 
     @Mock
+    private TodoValidator todoValidator;
+
+    @Mock
     private UserService userService;
 
     private TodoController todoController;
@@ -49,7 +52,7 @@ public class TodoControllerTest {
 
     @Before
     public void before() throws JsonProcessingException {
-        todoController = new TodoController(todoRepository, taskRepository);
+        todoController = new TodoController(todoRepository, taskRepository, todoValidator);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(todoController)
                 .build();
