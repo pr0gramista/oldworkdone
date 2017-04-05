@@ -98,6 +98,8 @@ public class TodoControllerTest {
                 hasProperty("tasks", is(exampleTodo.getTasks())),
                 hasProperty("owner", is(notNullValue()))
         ));
+
+        verify(todoValidator, atLeastOnce()).validate(any(Todo.class), any());
     }
 
     @Test
@@ -122,6 +124,8 @@ public class TodoControllerTest {
         Todo exampleTodo2WithId = new Todo.TodoBuilder(exampleTodo2).id(1).build();
         verify(taskRepository, atMost(1)).save(exampleTodo2WithId.getTasks());
         verify(todoRepository, atMost(1)).save(exampleTodo2WithId);
+
+        verify(todoValidator, atLeastOnce()).validate(any(Todo.class), any());
     }
 
     @Test

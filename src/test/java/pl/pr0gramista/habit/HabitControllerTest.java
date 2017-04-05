@@ -83,6 +83,8 @@ public class HabitControllerTest {
                 hasProperty("color", is(Color.RED)),
                 hasProperty("owner", is(notNullValue()))
         ));
+
+        verify(habitValidator, atLeastOnce()).validate(any(Habit.class), any());
     }
 
     @Test
@@ -140,6 +142,8 @@ public class HabitControllerTest {
                 hasProperty("owner", is(notNullValue())),
                 hasProperty("tags", hasItem("tag2"))
         ));
+
+        verify(habitValidator, atLeastOnce()).validate(any(Habit.class), any());
     }
 
     @Test
