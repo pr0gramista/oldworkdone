@@ -51,9 +51,23 @@
             <habit v-for="(habit, index) in habits" :habit="habit" :index="index" :key="habit.id"></todo>
         </div>
         <div class="fixed-action-btn">
-            <button @click="addNewHabit" class="btn-floating btn-large waves-effect waves-light amber">
+            <button class="btn-floating btn-large waves-effect waves-light amber">
                 <i class="large material-icons">add</i>
-        </button>
+            </button>
+            <ul>
+                <li>
+                    <button @click="addNewHabit" class="btn-floating blue darken-1"><i
+                            class="material-icons">thumb_up</i></button>
+                </li>
+                <li>
+                    <button @click="addNewTodo" class="btn-floating orange darken-1"><i class="material-icons">list</i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="addNewChallenge" class="btn-floating teal darken-1"><i class="material-icons">linear_scale</i>
+                    </button>
+                </li>
+            </ul>
         </div>
     </main>
 </div>

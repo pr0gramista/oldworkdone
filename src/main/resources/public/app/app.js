@@ -46,6 +46,12 @@ var app = new Vue({
         app.habits.push(newHabit);
       })
     },
+    addNewTodo: function () {
+      console.log("Add new todo");
+    },
+    addNewChallenge: function () {
+      console.log("Add new challenge");
+    },
     refreshTodos: function () {
       habitRepository.fetch();
     }
