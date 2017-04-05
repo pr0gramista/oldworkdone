@@ -28,24 +28,22 @@ var app = new Vue({
   el: '#app',
   data: {
     habits: habitRepository.fetch(),
-    newHabit: {
-      text: "przykladowy tekst",
-      color: "RED",
-      expReward: "HIGH",
-      coinReward: "HIGH",
-      tags: []
-    },
     user: userRepository.fetch()
   },
   watch: {
   },
   methods: {
     addNewHabit: function () {
-      var newHabit = this.newHabit;
+      var newHabit = {
+        text: "Your title",
+        color: "RED",
+        expReward: "MEDIUM",
+        coinReward: "MEDIUM",
+        tags: []
+      }
       axios.post("/habit/", newHabit).then(function (r) {
         newHabit.id = r.data; //id
         app.habits.push(newHabit);
-        newHabit.id = null;
       })
     },
     refreshTodos: function () {
