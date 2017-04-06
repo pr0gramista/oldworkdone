@@ -21,6 +21,81 @@ Vue.component('profile', {
   `
 })
 
+Vue.component('todo', {
+  props: ['todo', 'index'],
+  data: function () {
+    return {
+      is_editing: false,
+      edit_title: ''
+    }
+  },
+  watch: {
+    todo: {
+      handler: function (todo) {
+        todoRepository.save(todo);
+      },
+      deep: true
+    }
+  },
+  computed: {
+    cardClass: function () {
+      return "color-" + this.todo.color.toLowerCase();
+    }
+  },
+  methods: {
+    startEdit: function () {
+      this.is_editing = true;
+      this.edit_title = this.todo.title;
+
+      Vue.nextTick(function () {
+        $('.dropdown-button').dropdown({
+            inDuration: 300,
+            outDuration: 225,
+            constrainWidth: false, // Does not change width of dropdown to that of the activator
+            hover: true, // Activate on hover
+            gutter: 0, // Spacing from edge
+            belowOrigin: false, // Displays dropdown below the button
+            alignment: 'left', // Displays dropdown with edge aligned to the left of button
+            stopPropagation: false // Stops event propagation
+          }
+        );
+      })
+    },
+    endEdit: function () {
+      this.is_editing = false;
+      this.todo.title = this.edit_title;
+    },
+    setColor: function (color) {
+      this.todo.color = color;
+    }
+  },
+  template:
+  `<div class="todo col s12 m6 l4">
+    <div class="card" v-bind:class="cardClass">
+      <div class="card-content">
+        <i v-if="!is_editing" @click="startEdit" class="material-icons right">edit</i>
+        <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
+        <span v-if="!is_editing">{{ todo.title }}</span>
+        <input v-if="is_editing" v-model="edit_title" />
+        <div v-for="(task, index) in todo.tasks">
+          <input type="checkbox" v-model="task.done" class="filled-in" :id="'todo-' + todo.id + '-task-' + index"/>
+          <label :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
+        </div>
+
+        <div v-if="is_editing">
+          <a class='dropdown-button btn' href='#' :data-activates="'dropdown-' + index">Color</a>
+
+          <ul :id="'dropdown-' + index" class='dropdown-content'>
+            <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
+            <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
+            <li><a href="#" @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>`
+})
+
 Vue.component('habit', {
   props: ['habit', 'index'],
   data: function () {
@@ -88,7 +163,6 @@ Vue.component('habit', {
         <div v-if="is_editing">
           <a class='dropdown-button btn' href='#' :data-activates="'dropdown-' + index">Color</a>
 
-          <!-- Dropdown Structure -->
           <ul :id="'dropdown-' + index" class='dropdown-content'>
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>

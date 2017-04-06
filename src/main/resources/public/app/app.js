@@ -14,6 +14,17 @@ var habitRepository = {
   }
 }
 
+var todoRepository = {
+  fetch: function () {
+    axios.get("/todo/").then(function (r) {
+      app.todos = r.data;
+    })
+  },
+  save: function (todo) {
+    axios.put("/todo/" + todo.id, todo);
+  }
+}
+
 var userRepository = {
   fetch: function() {
     axios.get("/user/").then(function (r) {
@@ -28,6 +39,7 @@ var app = new Vue({
   el: '#app',
   data: {
     habits: habitRepository.fetch(),
+    todos: todoRepository.fetch(),
     user: userRepository.fetch()
   },
   watch: {
@@ -47,7 +59,18 @@ var app = new Vue({
       })
     },
     addNewTodo: function () {
-      console.log("Add new todo");
+      var newTodo = {
+        title: "Your title",
+        color: "BLUE",
+        expReward: "MEDIUM",
+        coinReward: "MEDIUM",
+        tasks: [],
+        tags: []
+      }
+      axios.post("/todo/", newTodo).then(function (r) {
+        newTodo.id = r.data; //id
+        app.todos.push(newTodo);
+      })
     },
     addNewChallenge: function () {
       console.log("Add new challenge");

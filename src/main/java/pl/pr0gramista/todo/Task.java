@@ -16,6 +16,8 @@ public class Task {
     @Size(max = 250)
     private String content;
 
+    private boolean done;
+
     public Task() {
     }
 
@@ -39,6 +41,14 @@ public class Task {
         this.content = content;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,6 +56,7 @@ public class Task {
 
         Task task = (Task) o;
 
+        if (done != task.done) return false;
         if (id != null ? !id.equals(task.id) : task.id != null) return false;
         return content != null ? content.equals(task.content) : task.content == null;
     }
@@ -54,6 +65,7 @@ public class Task {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (done ? 1 : 0);
         return result;
     }
 
@@ -62,6 +74,7 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
+                ", done=" + done +
                 '}';
     }
 }

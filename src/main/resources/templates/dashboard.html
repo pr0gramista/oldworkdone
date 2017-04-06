@@ -46,9 +46,9 @@
 </header>
     <div>
     <main>
-        <a @click="refreshTodos" href="#"><i class="material-icons">refresh</i></a>
         <div class="row">
-            <habit v-for="(habit, index) in habits" :habit="habit" :index="index" :key="habit.id"></todo>
+            <habit v-for="(habit, index) in habits" :habit="habit" :index="index" :key="habit.id"></habit>
+            <todo v-for="(todo, index) in todos" :todo="todo" :index="index" :key="todo.id"></todo>
         </div>
         <div class="fixed-action-btn">
             <button class="btn-floating btn-large waves-effect waves-light amber">
