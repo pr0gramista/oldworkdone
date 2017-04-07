@@ -19,6 +19,15 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.destination "${buildDir}/jacocoHtml"
+	}
+}
 
 jar {
 	baseName = 'workdone'
