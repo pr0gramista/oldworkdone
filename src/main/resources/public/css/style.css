@@ -41,6 +41,16 @@ input.todo-title {
     outline: none;
 }
 
+.visible-child-hover {
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.visible-parent-hover:hover .visible-child-hover {
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+
 .color-icon.red,
 .habit .card.color-red,
 .todo .card.color-red {

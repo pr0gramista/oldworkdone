@@ -26,7 +26,8 @@ Vue.component('todo', {
   data: function () {
     return {
       is_editing: false,
-      edit_title: ''
+      edit_title: '',
+      newTask: ''
     }
   },
   watch: {
@@ -67,13 +68,22 @@ Vue.component('todo', {
     },
     setColor: function (color) {
       this.todo.color = color;
+    },
+    addNewTask: function () {
+      if(this.newTask.length > 0) {
+        this.todo.tasks.push({
+          content: this.newTask,
+          done: false
+        });
+        this.newTask = '';
+      }
     }
   },
   template:
   `<div class="todo col s12 m6 l4">
     <div class="card" v-bind:class="cardClass">
-      <div class="card-content">
-        <i v-if="!is_editing" @click="startEdit" class="material-icons right">edit</i>
+      <div class="card-content visible-parent-hover">
+        <i v-if="!is_editing" @click="startEdit" class="material-icons right visible-child-hover">edit</i>
         <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
         <span v-if="!is_editing">{{ todo.title }}</span>
         <input v-if="is_editing" v-model="edit_title" />
@@ -81,7 +91,10 @@ Vue.component('todo', {
           <input type="checkbox" v-model="task.done" class="filled-in" :id="'todo-' + todo.id + '-task-' + index"/>
           <label :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
         </div>
-
+        <div v-if="is_editing" @keyup.enter="addNewTask">
+          <input v-model="newTask" />
+          <button @click="addNewTask" class="btn"><i class="material-icons">add</i></button>
+        </div>
         <div v-if="is_editing">
           <a class='dropdown-button btn' href='#' :data-activates="'dropdown-' + index">Color</a>
 
@@ -155,8 +168,8 @@ Vue.component('habit', {
   template:
   `<div class="habit col s12 m6 l4">
     <div class="card" v-bind:class="cardClass">
-      <div class="card-content">
-        <i v-if="!is_editing" @click="startEdit" class="material-icons right">edit</i>
+      <div class="card-content visible-parent-hover">
+        <i v-if="!is_editing" @click="startEdit" class="material-icons right visible-child-hover">edit</i>
         <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
         <p v-if="!is_editing">{{ habit.text }}</p>
         <textarea v-if="is_editing" v-model="edit_text" />
