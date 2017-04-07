@@ -69,6 +69,18 @@ input.todo-title {
   background-color: #87D37C;
 }
 
+.color-icon.white,
+.habit .card.color-white,
+.todo .card.color-white {
+  background-color: #FFFFFF;
+}
+
+.color-icon.gray,
+.habit .card.color-gray,
+.todo .card.color-gray {
+  background-color: #DDD;
+}
+
 .color-icon {
   width: 32px;
   height: 32px;

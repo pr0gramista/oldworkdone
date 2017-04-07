@@ -102,6 +102,8 @@ Vue.component('todo', {
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
             <li><a href="#" @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
+            <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
+            <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
         </div>
       </div>
@@ -180,6 +182,8 @@ Vue.component('habit', {
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
             <li><a href="#" @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
+            <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
+            <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
         </div>
       </div>
