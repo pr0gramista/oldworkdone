@@ -41,6 +41,9 @@ Vue.component('todo', {
   computed: {
     cardClass: function () {
       return "color-" + this.todo.color.toLowerCase();
+    },
+    colorDropdownClass: function () {
+      return this.todo.color.toLowerCase();
     }
   },
   methods: {
@@ -77,6 +80,9 @@ Vue.component('todo', {
         });
         this.newTask = '';
       }
+    },
+    deleteTask: function (index) {
+      this.todo.tasks.splice(index, 1);
     }
   },
   template:
@@ -89,15 +95,20 @@ Vue.component('todo', {
         <input v-if="is_editing" v-model="edit_title" />
         <div v-for="(task, index) in todo.tasks">
           <input type="checkbox" v-model="task.done" class="filled-in" :id="'todo-' + todo.id + '-task-' + index"/>
-          <label :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
+          <label v-if="!is_editing" :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
+          <div class="inline-parent" v-if="is_editing">
+            <input v-model="task.content" class="grow"/>
+            <button class="clear" @click="deleteTask(index)" ><i class="material-icons">delete</i></button>
+          </div>
         </div>
-        <div v-if="is_editing" @keyup.enter="addNewTask">
-          <input v-model="newTask" />
+        <div v-if="is_editing" @keyup.enter="addNewTask" class="inline-parent">
+          <input v-model="newTask" class="grow"/>
           <button @click="addNewTask" class="btn"><i class="material-icons">add</i></button>
         </div>
         <div v-if="is_editing">
-          <a class='dropdown-button btn' href='#' :data-activates="'dropdown-' + index">Color</a>
-
+          <a class='dropdown-button' href='#' :data-activates="'dropdown-' + index">
+            <div class="color-icon" v-bind:class="colorDropdownClass"></div>
+          </a>
           <ul :id="'dropdown-' + index" class='dropdown-content'>
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
@@ -176,8 +187,9 @@ Vue.component('habit', {
         <p v-if="!is_editing">{{ habit.text }}</p>
         <textarea v-if="is_editing" v-model="edit_text" />
         <div v-if="is_editing">
-          <a class='dropdown-button btn' href='#' :data-activates="'dropdown-' + index">Color</a>
-
+          <a class='dropdown-button' href='#' :data-activates="'dropdown-' + index">
+            <div class="color-icon" v-bind:class="colorDropdownClass"></div>
+          </a>
           <ul :id="'dropdown-' + index" class='dropdown-content'>
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>

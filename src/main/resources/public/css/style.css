@@ -110,3 +110,19 @@ input.todo-title {
   height: 64px;
   border-radius: 32px;
 }
+
+button.clear {
+  background: none;
+  border: none;
+  outline: none;
+  transition: all .2s ease-in-out;
+}
+button.clear:hover { transform: scale(1.2); }
+
+div.inline-parent {
+  display: flex;
+}
+
+input.grow {
+  flex-grow: 1;
+}
