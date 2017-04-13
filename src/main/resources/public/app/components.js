@@ -92,12 +92,12 @@ Vue.component('todo', {
         <i v-if="!is_editing" @click="startEdit" class="material-icons right visible-child-hover">edit</i>
         <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
         <span v-if="!is_editing">{{ todo.title }}</span>
-        <input v-if="is_editing" v-model="edit_title" />
-        <div v-for="(task, index) in todo.tasks">
+        <input v-if="is_editing" v-model="edit_title" class="generic" />
+        <div v-for="(task, index) in todo.tasks" class="task">
           <input type="checkbox" v-model="task.done" class="filled-in" :id="'todo-' + todo.id + '-task-' + index"/>
           <label v-if="!is_editing" :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
           <div class="inline-parent" v-if="is_editing">
-            <input v-model="task.content" class="grow"/>
+            <input v-model="task.content" class="grow generic"/>
             <button class="clear" @click="deleteTask(index)" ><i class="material-icons">delete</i></button>
           </div>
         </div>
@@ -105,7 +105,8 @@ Vue.component('todo', {
           <input v-model="newTask" class="grow"/>
           <button @click="addNewTask" class="btn"><i class="material-icons">add</i></button>
         </div>
-        <div v-if="is_editing">
+
+        <div class="card-settings" v-if="is_editing">
           <a class='dropdown-button' href='#' :data-activates="'dropdown-' + index">
             <div class="color-icon" v-bind:class="colorDropdownClass"></div>
           </a>
@@ -186,7 +187,9 @@ Vue.component('habit', {
         <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
         <p v-if="!is_editing">{{ habit.text }}</p>
         <textarea v-if="is_editing" v-model="edit_text" />
-        <div v-if="is_editing">
+        <button @click="done" class="center-align waves-effect waves-light btn">Done</button>
+
+        <div class="card-settings" v-if="is_editing">
           <a class='dropdown-button' href='#' :data-activates="'dropdown-' + index">
             <div class="color-icon" v-bind:class="colorDropdownClass"></div>
           </a>
@@ -198,9 +201,6 @@ Vue.component('habit', {
             <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
         </div>
-      </div>
-      <div class="card-action">
-        <button @click="done" class="waves-effect waves-light btn">Done</button>
       </div>
     </div>
   </div>`

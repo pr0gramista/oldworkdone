@@ -54,31 +54,31 @@ input.todo-title {
 .color-icon.red,
 .habit .card.color-red,
 .todo .card.color-red {
-  background-color: #D64541;
+  background-color: #e57373 !important;
 }
 
 .color-icon.blue,
 .habit .card.color-blue,
 .todo .card.color-blue {
-  background-color: #19B5FE;
+  background-color: #90caf9 !important;
 }
 
 .color-icon.green,
 .habit .card.color-green,
 .todo .card.color-green {
-  background-color: #87D37C;
+  background-color: #a5d6a7 !important;
 }
 
 .color-icon.white,
 .habit .card.color-white,
 .todo .card.color-white {
-  background-color: #FFFFFF;
+  background-color: #FFFFFF !important;
 }
 
 .color-icon.gray,
 .habit .card.color-gray,
 .todo .card.color-gray {
-  background-color: #DDD;
+  background-color: #DDD !important;
 }
 
 .color-icon {
@@ -125,4 +125,28 @@ div.inline-parent {
 
 input.grow {
   flex-grow: 1;
+}
+
+.habit label,
+.todo label {
+  color: inherit;
+}
+
+.todo .task
+{
+  margin: 8px 0;
+}
+
+input.generic {
+  display: inline;
+  border: none !important;
+  box-shadow: none !important;
+  width: auto;
+  height: auto;
+  margin: 10px 0;
+}
+
+div.card-settings {
+  margin-top: 10px;
+  display: flex;
 }
