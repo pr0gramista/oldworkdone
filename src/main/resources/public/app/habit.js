@@ -1,11 +1,5 @@
 Vue.component('habit', {
   props: ['habit', 'index'],
-  data: function () {
-    return {
-      is_editing: false,
-      edit_text: ''
-    }
-  },
   watch: {
     habit: {
       handler: function (habit) {
@@ -14,27 +8,28 @@ Vue.component('habit', {
       deep: true
     }
   },
+  data: function() {
+    return {
+      unique: uid()
+    }
+  },
   computed: {
     cardClass: function () {
       return "color-" + this.habit.color.toLowerCase();
+    },
+    colorDropdownClass: function () {
+      return this.habit.color.toLowerCase();
     }
   },
+  mounted: function () {
+    Vue.nextTick(function () {
+      $('.dropdown-button').dropdown({
+          hover: true
+        }
+      );
+    })
+  },
   methods: {
-    startEdit: function () {
-      this.is_editing = true;
-      this.edit_text = this.habit.text;
-
-      Vue.nextTick(function () {
-        $('.dropdown-button').dropdown({
-            hover: true
-          }
-        );
-      })
-    },
-    endEdit: function () {
-      this.is_editing = false;
-      this.habit.text = this.edit_text;
-    },
     setColor: function (color) {
       this.habit.color = color;
     },
@@ -50,18 +45,15 @@ Vue.component('habit', {
   template:
   `<div class="habit col s12 m6 l4">
     <div class="card" v-bind:class="cardClass">
-      <div class="card-content visible-parent-hover">
-        <i v-if="!is_editing" @click="startEdit" class="material-icons right visible-child-hover">edit</i>
-        <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
-        <p v-if="!is_editing">{{ habit.text }}</p>
-        <textarea v-if="is_editing" v-model="edit_text" />
+      <div class="card-content hover-visible-parent">
+        <textarea v-model="habit.text" />
         <button @click="done" class="center-align waves-effect waves-light btn">Done</button>
 
-        <div class="card-settings" v-if="is_editing">
-          <a class='dropdown-button' href='#' :data-activates="'dropdown-' + index">
+        <div class="card-settings hover-visible">
+          <a class='dropdown-button' href='#' :data-activates="'dropdown-' + unique">
             <div class="color-icon" v-bind:class="colorDropdownClass"></div>
           </a>
-          <ul :id="'dropdown-' + index" class='dropdown-content'>
+          <ul :id="'dropdown-' + unique" class='dropdown-content'>
             <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
             <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
             <li><a href="#" @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
