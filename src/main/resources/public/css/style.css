@@ -41,12 +41,18 @@ input.todo-title {
     outline: none;
 }
 
-.visible-child-hover {
+.hover-visible,
+.hover-visible-2,
+.hover-visible-3,
+.hover-visible-4 {
   opacity: 0;
   transition: opacity 0.4s;
 }
 
-.visible-parent-hover:hover .visible-child-hover {
+.hover-visible-parent:hover .hover-visible,
+.hover-visible-parent-2:hover .hover-visible-2,
+.hover-visible-parent-3:hover .hover-visible-3,
+.hover-visible-parent-4:hover .hover-visible-4 {
   opacity: 1;
   transition: opacity 0.4s;
 }
@@ -123,7 +129,7 @@ div.inline-parent {
   display: flex;
 }
 
-input.grow {
+.grow {
   flex-grow: 1;
 }
 
@@ -132,9 +138,14 @@ input.grow {
   color: inherit;
 }
 
-.todo .task
+.task
 {
-  margin: 8px 0;
+  margin: 10px 0;
+  border-bottom: 1px solid #666;
+}
+
+.task input {
+  font-size: 16px;
 }
 
 input.generic {
@@ -143,10 +154,13 @@ input.generic {
   box-shadow: none !important;
   width: auto;
   height: auto;
-  margin: 10px 0;
 }
 
 div.card-settings {
   margin-top: 10px;
   display: flex;
+}
+
+li.task {
+  list-style: none;
 }

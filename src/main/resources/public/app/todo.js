@@ -58,19 +58,14 @@ Vue.component('todo', {
   template:
   `<div class="todo col s12 m6 l4">
     <div class="card" v-bind:class="cardClass">
-      <div class="card-content visible-parent-hover">
-        <i v-if="!is_editing" @click="startEdit" class="material-icons right visible-child-hover">edit</i>
+      <div class="card-content hover-visible-parent">
+        <i v-if="!is_editing" @click="startEdit" class="material-icons right hover-visible">edit</i>
         <i v-if="is_editing" @click="endEdit" class="material-icons right">done</i>
         <span v-if="!is_editing">{{ todo.title }}</span>
         <input v-if="is_editing" v-model="edit_title" class="generic" />
-        <div v-for="(task, index) in todo.tasks" class="task">
-          <input type="checkbox" v-model="task.done" class="filled-in" :id="'todo-' + todo.id + '-task-' + index"/>
-          <label v-if="!is_editing" :for="'todo-' + todo.id + '-task-' + index">{{ task.content }}</label>
-          <div class="inline-parent" v-if="is_editing">
-            <input v-model="task.content" class="grow generic"/>
-            <button class="clear" @click="deleteTask(index)" ><i class="material-icons">delete</i></button>
-          </div>
-        </div>
+        <ul class="todo-task-list">
+          <task v-for="(task, index) in todo.tasks" :task="task" :todo="this" :index="index"></task>
+        </ul>
         <div v-if="is_editing" @keyup.enter="addNewTask" class="inline-parent">
           <input v-model="newTask" class="grow"/>
           <button @click="addNewTask" class="btn"><i class="material-icons">add</i></button>
