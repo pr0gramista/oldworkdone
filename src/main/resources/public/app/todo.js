@@ -52,7 +52,7 @@ Vue.component('todo', {
       <div class="card-content hover-visible-parent">
         <input v-model="todo.title" class="generic" />
         <ul class="todo-task-list">
-          <task v-for="(task, index) in todo.tasks" :task="task" :todo="this" :index="index"></task>
+          <task v-for="(task, index) in todo.tasks" v-on:deleteThisTask="deleteTask(index)" :task="task" :index="index"></task>
         </ul>
 
         <div @keyup.enter="addNewTask" class="new-task inline-parent hover-visible">
