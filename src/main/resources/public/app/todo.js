@@ -55,7 +55,7 @@ Vue.component('todo', {
           <task v-for="(task, index) in todo.tasks" :task="task" :todo="this" :index="index"></task>
         </ul>
 
-        <div @keyup.enter="addNewTask" class="inline-parent hover-visible">
+        <div @keyup.enter="addNewTask" class="new-task inline-parent hover-visible">
           <input v-model="newTask" class="grow"/>
           <button @click="addNewTask" class="btn"><i class="material-icons">add</i></button>
         </div>
