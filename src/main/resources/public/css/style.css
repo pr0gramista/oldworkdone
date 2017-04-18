@@ -120,8 +120,14 @@ div.inline-parent {
 .todo-task-list {
   margin: 0; }
 
-.todo .new-task input {
-  font-size: 16px; }
+.todo .new-task {
+  transition: all 0.5s !important;
+  height: 0; }
+  .todo .new-task input {
+    font-size: 16px; }
+
+.todo:hover .new-task {
+  height: 45px; }
 
 .task {
   margin: 0;
