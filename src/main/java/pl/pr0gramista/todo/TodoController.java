@@ -12,14 +12,11 @@ import java.util.Optional;
 @RequestMapping("/todo")
 public class TodoController {
     private TodoRepository todoRepository;
-    private TaskRepository taskRepository;
     private TodoValidator validator;
 
     public TodoController(@Autowired TodoRepository todoRepository,
-                          @Autowired TaskRepository taskRepository,
                           @Autowired TodoValidator validator) {
         this.todoRepository = todoRepository;
-        this.taskRepository = taskRepository;
         this.validator = validator;
     }
 
@@ -36,7 +33,6 @@ public class TodoController {
             throw new BindException(result);
 
         todo.setOwner(user);
-        taskRepository.save(todo.getTasks());
         return todoRepository.save(todo).getId();
     }
 
@@ -56,7 +52,6 @@ public class TodoController {
         if (todoOptional.isPresent()) {
             todo.setId(id);
             todo.setOwner(user);
-            taskRepository.save(todo.getTasks());
             todoRepository.save(todo);
         }
     }

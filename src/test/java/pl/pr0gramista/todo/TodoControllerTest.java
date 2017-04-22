@@ -34,9 +34,6 @@ public class TodoControllerTest {
     private TodoRepository todoRepository;
 
     @Mock
-    private TaskRepository taskRepository;
-
-    @Mock
     private TodoValidator todoValidator;
 
     @Mock
@@ -52,7 +49,7 @@ public class TodoControllerTest {
 
     @Before
     public void before() throws JsonProcessingException {
-        todoController = new TodoController(todoRepository, taskRepository, todoValidator);
+        todoController = new TodoController(todoRepository, todoValidator);
         mockMvc = MockMvcBuilders
                 .standaloneSetup(todoController)
                 .build();
@@ -90,7 +87,6 @@ public class TodoControllerTest {
         //We can't use simply eq(exampleTodo) because User is being injected
         ArgumentCaptor<Todo> argument = ArgumentCaptor.forClass(Todo.class);
 
-        verify(taskRepository, atMost(1)).save(exampleTodo.getTasks());
         verify(todoRepository).save(argument.capture());
         assertThat(argument.getValue(), allOf(
                 hasProperty("id", is(nullValue())),
@@ -122,7 +118,6 @@ public class TodoControllerTest {
                 .andExpect(status().isOk());
 
         Todo exampleTodo2WithId = new Todo.TodoBuilder(exampleTodo2).id(1).build();
-        verify(taskRepository, atMost(1)).save(exampleTodo2WithId.getTasks());
         verify(todoRepository, atMost(1)).save(exampleTodo2WithId);
 
         verify(todoValidator, atLeastOnce()).validate(any(Todo.class), any());

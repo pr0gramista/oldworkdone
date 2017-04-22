@@ -22,7 +22,7 @@ public class Todo {
     @NotNull
     private String title;
 
-    @OneToMany(orphanRemoval = true)
+    @ElementCollection(targetClass = Task.class)
     private List<Task> tasks;
 
     @OneToOne
