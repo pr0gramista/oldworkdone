@@ -26,7 +26,6 @@ public class HabitCompletion extends Completion {
                            ZonedDateTime dateTime,
                            Habit habit) {
         super(experience, coins, dateTime);
-        this.id = id;
         this.habit = habit;
     }
 
