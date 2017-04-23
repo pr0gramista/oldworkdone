@@ -35,6 +35,8 @@ public class Todo {
 
     private CoinAmount coinReward;
 
+    private boolean rewarded = false;
+
     @NotNull
     private Color color;
 
@@ -114,6 +116,14 @@ public class Todo {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public boolean isRewarded() {
+        return rewarded;
+    }
+
+    public void setRewarded(boolean rewarded) {
+        this.rewarded = rewarded;
     }
 
     @Override

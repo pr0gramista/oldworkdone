@@ -14,10 +14,17 @@ public class TodoController {
     private TodoRepository todoRepository;
     private TodoValidator validator;
 
+    private TodoService todoService;
+    private TaskService taskService;
+
     public TodoController(@Autowired TodoRepository todoRepository,
-                          @Autowired TodoValidator validator) {
+                          @Autowired TodoValidator validator,
+                          @Autowired TodoService todoService,
+                          @Autowired TaskService taskService) {
         this.todoRepository = todoRepository;
         this.validator = validator;
+        this.todoService = todoService;
+        this.taskService = taskService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -48,10 +55,22 @@ public class TodoController {
         if (result.hasErrors())
             throw new BindException(result);
 
-        Optional<Todo> todoOptional = todoRepository.findOneByIdAndOwner(id, user);
-        if (todoOptional.isPresent()) {
+        Optional<Todo> existingTodoOptional = todoRepository.findOneByIdAndOwner(id, user);
+        if (existingTodoOptional.isPresent()) {
             todo.setId(id);
             todo.setOwner(user);
+
+            todo.getTasks().forEach(task -> {
+                if (task.isDone()) {
+                    taskService.completeTask(task, todo);
+                }
+            });
+
+            //If list is completely done then make a completion
+            if (todo.getTasks().stream().allMatch(Task::isDone)) {
+                todoService.complete(todo);
+            }
+
             todoRepository.save(todo);
         }
     }

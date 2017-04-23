@@ -13,6 +13,8 @@ public class Task {
 
     private boolean done;
 
+    private boolean rewarded;
+
     public Task() {
     }
 
@@ -36,6 +38,14 @@ public class Task {
         this.done = done;
     }
 
+    public boolean isRewarded() {
+        return rewarded;
+    }
+
+    public void setRewarded(boolean rewarded) {
+        this.rewarded = rewarded;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,6 +54,7 @@ public class Task {
         Task task = (Task) o;
 
         if (done != task.done) return false;
+        if (rewarded != task.rewarded) return false;
         return content != null ? content.equals(task.content) : task.content == null;
     }
 
@@ -51,6 +62,7 @@ public class Task {
     public int hashCode() {
         int result = content != null ? content.hashCode() : 0;
         result = 31 * result + (done ? 1 : 0);
+        result = 31 * result + (rewarded ? 1 : 0);
         return result;
     }
 
@@ -59,6 +71,7 @@ public class Task {
         return "Task{" +
                 "content='" + content + '\'' +
                 ", done=" + done +
+                ", rewarded=" + rewarded +
                 '}';
     }
 }
