@@ -2,6 +2,11 @@ var uid = function () {
     return 'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
 }
 
+var reward = function (experience, coins) {
+  Materialize.toast('You have received ' + experience + ' exp and ' + coins + ' coins', 4000)
+  userRepository.fetch();
+}
+
 var levelGenerator = function(l) {
   l = l - 1;
   return l*l*100 + l*200 + 100;
@@ -25,7 +30,20 @@ var todoRepository = {
     })
   },
   save: function (todo) {
-    axios.put("/todo/" + todo.id, todo);
+    axios.put("/todo/" + todo.id, todo).then(function (r) {
+      r.data.forEach(function (completation, index) {
+        if(completation.task != null) { //TaskCompletation
+          todo.tasks.find(function (task) {
+            return task.content == completation.task.content && task.done && (task.rewarded == undefined || task.rewarded == false);
+          }).rewarded = true;
+          reward(completation.experience, completation.coins);
+        }
+        if(completation.todo != null) { //TodoCompletation
+          todo.rewarded = true;
+          reward(completation.experience, completation.coins);
+        }
+      });
+    });
   }
 }
 

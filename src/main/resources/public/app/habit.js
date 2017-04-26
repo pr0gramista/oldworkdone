@@ -35,10 +35,7 @@ Vue.component('habit', {
     },
     done: function() {
       axios.get("/habit/" + this.habit.id + "/done/").then(function (r) {
-        var exp = r.data.experience
-        var coins = r.data.coins
-        Materialize.toast('You have received ' + exp + ' exp and ' + coins + ' coins', 4000)
-        userRepository.fetch();
+        reward(r.data.experience, r.data.coins);
       });
     }
   },

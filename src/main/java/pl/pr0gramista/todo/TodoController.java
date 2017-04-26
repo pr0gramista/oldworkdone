@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.pr0gramista.Completion;
 import pl.pr0gramista.user.User;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,8 +52,10 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public void editTodo(@PathVariable long id, @RequestBody Todo todo, User user, BindingResult result) throws BindException {
+    public List<Completion> editTodo(@PathVariable long id, @RequestBody Todo todo, User user, BindingResult result) throws BindException {
         validator.validate(todo, result);
+
+        List<Completion> completions = new LinkedList<>();
 
         if (result.hasErrors())
             throw new BindException(result);
@@ -62,16 +67,18 @@ public class TodoController {
 
             todo.getTasks().forEach(task -> {
                 if (task.isDone()) {
-                    taskService.completeTask(task, todo);
+                    taskService.completeTask(task, todo).ifPresent(completions::add);
                 }
             });
 
             //If list is completely done then make a completion
             if (todo.getTasks().stream().allMatch(Task::isDone)) {
-                todoService.complete(todo);
+                todoService.complete(todo).ifPresent(completions::add);
             }
 
             todoRepository.save(todo);
+            return completions;
         }
+        return null;
     }
 }
