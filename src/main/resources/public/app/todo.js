@@ -47,7 +47,7 @@ Vue.component('todo', {
     }
   },
   template:
-  `<div class="todo col s12 m6 l4">
+  `<div class="todo col s12 m6 l4 xl3">
     <div class="card" v-bind:class="cardClass">
       <div class="card-content hover-visible-parent">
         <input v-model="todo.title" class="generic" />
