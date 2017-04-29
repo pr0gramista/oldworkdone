@@ -22,11 +22,13 @@ Vue.component('todo', {
     }
   },
   mounted: function() {
+    var unique = this.unique;
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
           hover: true
         }
       );
+      $('#chips-'+unique).material_chip();
     })
   },
   methods: {
@@ -71,6 +73,7 @@ Vue.component('todo', {
             <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
+          <div :id="'chips-' + unique" class="chips"></div>
         </div>
       </div>
     </div>

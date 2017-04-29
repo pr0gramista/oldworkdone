@@ -22,11 +22,21 @@ Vue.component('habit', {
     }
   },
   mounted: function () {
+    var unique = this.unique;
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
           hover: true
         }
       );
+      $('#chips-'+unique).material_chip();
+
+      $('#chips-'+unique).on('chip.add', function(e, chip){
+
+      });
+
+      $('#chips-'+unique).on('chip.delete', function(e, chip){
+
+      });
     })
   },
   methods: {
@@ -57,6 +67,7 @@ Vue.component('habit', {
             <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
+          <div :id="'chips-' + unique" class="chips"></div>
         </div>
       </div>
     </div>

@@ -102,6 +102,9 @@ div.inline-parent {
     .habit textarea:focus {
       outline: none; }
 
+.chips {
+  width: 100%; }
+
 .card .card-content {
   padding-bottom: 0; }
 
@@ -121,7 +124,7 @@ div.inline-parent {
   margin: 0; }
 
 .todo .new-task {
-  transition: all 0.5s !important;
+  transition: all 0.5s;
   height: 0; }
   .todo .new-task input {
     font-size: 16px; }
