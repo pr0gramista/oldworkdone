@@ -28,7 +28,6 @@ Vue.component('todo', {
           hover: true
         }
       );
-      $('#chips-'+unique).material_chip();
     })
   },
   methods: {
@@ -46,6 +45,15 @@ Vue.component('todo', {
     },
     deleteTask: function (index) {
       this.todo.tasks.splice(index, 1);
+    },
+    addTag: function () {
+      if(this.newTag.length > 0) {
+        this.todo.tags.push(this.newTag);
+        this.newTag = '';
+      }
+    },
+    deleteTag: function (index) {
+      this.todo.tags.splice(index, 1);
     }
   },
   template:
@@ -73,7 +81,13 @@ Vue.component('todo', {
             <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
-          <div :id="'chips-' + unique" class="chips"></div>
+        </div>
+        <div :id="'chips-' + unique" class="chips">
+          <div v-for="(tag, index) in todo.tags "class="chip">
+            {{ tag }}
+            <i @click="deleteTag(index)" class="close material-icons">close</i>
+          </div>
+          <input @keyup.enter="addTag" v-model="newTag"/>
         </div>
       </div>
     </div>

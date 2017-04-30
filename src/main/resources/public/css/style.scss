@@ -129,8 +129,34 @@ div.inline-parent {
   }
 }
 
-.chips {
-  width: 100%;
+.todo, .habit {
+  .chips {
+    width: 100%;
+    border: none;
+    .input {
+      height: 0;
+      transition: height 0.5s;
+    }
+    &:hover {
+      .input {
+        height: 2rem;
+        transition: height 0.5s;
+      }
+    }
+  }
+}
+
+.chip {
+  i {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  &:hover {
+    i {
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+  }
 }
 
 .card {

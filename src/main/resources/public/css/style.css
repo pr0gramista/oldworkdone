@@ -102,8 +102,23 @@ div.inline-parent {
     .habit textarea:focus {
       outline: none; }
 
-.chips {
-  width: 100%; }
+.todo .chips, .habit .chips {
+  width: 100%;
+  border: none; }
+  .todo .chips .input, .habit .chips .input {
+    height: 0;
+    transition: height 0.5s; }
+  .todo .chips:hover .input, .habit .chips:hover .input {
+    height: 2rem;
+    transition: height 0.5s; }
+
+.chip i {
+  opacity: 0;
+  transition: opacity 0.2s; }
+
+.chip:hover i {
+  opacity: 1;
+  transition: opacity 0.2s; }
 
 .card .card-content {
   padding-bottom: 0; }
