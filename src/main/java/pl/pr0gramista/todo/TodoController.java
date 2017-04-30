@@ -72,7 +72,7 @@ public class TodoController {
             });
 
             //If list is completely done then make a completion
-            if (todo.getTasks().stream().allMatch(Task::isDone)) {
+            if (todo.getTasks().size() > 0 && todo.getTasks().stream().allMatch(Task::isDone)) {
                 todoService.complete(todo).ifPresent(completions::add);
             }
 
