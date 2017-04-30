@@ -74,7 +74,7 @@ Vue.component('habit', {
             {{ tag }}
             <i @click="deleteTag(index)" class="close material-icons">close</i>
           </div>
-          <input @keyup.enter="addTag" v-model="newTag"/>
+          <input @keyup.enter="addTag" v-model="newTag" placeholder="New tag"/>
         </div>
       </div>
     </div>

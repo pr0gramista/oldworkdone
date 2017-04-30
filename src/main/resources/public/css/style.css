@@ -104,13 +104,26 @@ div.inline-parent {
 
 .todo .chips, .habit .chips {
   width: 100%;
+  min-height: 5px;
   border: none; }
-  .todo .chips .input, .habit .chips .input {
+  .todo .chips input, .habit .chips input {
+    display: inline-block;
+    width: auto;
+    min-width: 120px;
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 5px;
+    border: none;
     height: 0;
     transition: height 0.5s; }
-  .todo .chips:hover .input, .habit .chips:hover .input {
-    height: 2rem;
-    transition: height 0.5s; }
+    .todo .chips input:focus, .habit .chips input:focus {
+      height: 2rem; }
+  .todo .chips input::placeholder, .habit .chips input::placeholder {
+    color: #666; }
+
+.todo:hover .chips input, .habit:hover .chips input {
+  height: 2rem;
+  transition: height 0.5s; }
 
 .chip i {
   opacity: 0;
