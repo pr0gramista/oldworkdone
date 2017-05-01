@@ -10,7 +10,7 @@ Vue.component('tag', {
       this.$emit("deleteThisTag");
     },
     selectMe: function (index) {
-      this.$emit("selectTag", this.text);
+      app.$emit("selectTag", this.text);
     }
   },
   template:

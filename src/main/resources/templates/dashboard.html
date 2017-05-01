@@ -46,8 +46,8 @@
     <div>
     <main>
         <div class="row">
-            <habit v-for="(habit, index) in habits" :habit="habit" :index="index" :key="habit.id"></habit>
-            <todo v-for="(todo, index) in todos" :todo="todo" :index="index" :key="todo.id"></todo>
+            <habit v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
+            <todo v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
         </div>
         <div class="fixed-action-btn">
             <button class="btn-floating btn-large waves-effect waves-light amber">

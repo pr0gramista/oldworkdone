@@ -62,9 +62,40 @@ var app = new Vue({
   data: {
     habits: habitRepository.fetch(),
     todos: todoRepository.fetch(),
-    user: userRepository.fetch()
+    user: userRepository.fetch(),
+    selectedTag: ""
   },
   watch: {
+  },
+  created: function () {
+    this.$on("selectTag", function (tag) {
+      console.log("Selected in created: " + tag);
+
+    });
+  },
+  computed: {
+    filteredTodos: function () {
+      var tag = this.selectedTag;
+      if(this.todos != null && this.selectedTag.length > 0) {
+        return this.todos.filter(function (todo) {
+          return todo.tags.indexOf(tag) != -1;
+        });
+      }
+      else {
+        return this.todos;
+      }
+    },
+    filteredHabits: function () {
+      var tag = this.selectedTag;
+      if(this.habits != null && this.selectedTag.length > 0) {
+        return this.habits.filter(function (habit) {
+          return habit.tags.indexOf(tag) != -1;
+        });
+      }
+      else {
+        return this.habits;
+      }
+    }
   },
   methods: {
     addNewHabit: function () {
