@@ -10,7 +10,8 @@ Vue.component('habit', {
   },
   data: function() {
     return {
-      unique: uid()
+      unique: uid(),
+      newTag: ""
     }
   },
   computed: {

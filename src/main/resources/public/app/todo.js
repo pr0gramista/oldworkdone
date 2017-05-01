@@ -10,7 +10,9 @@ Vue.component('todo', {
   },
   data: function() {
     return {
-      unique: uid()
+      unique: uid(),
+      newTag: "",
+      newTask: ""
     }
   },
   computed: {
