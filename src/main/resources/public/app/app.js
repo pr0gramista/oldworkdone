@@ -69,8 +69,7 @@ var app = new Vue({
   },
   created: function () {
     this.$on("selectTag", function (tag) {
-      console.log("Selected in created: " + tag);
-
+      this.selectedTag = tag;
     });
   },
   computed: {
@@ -98,6 +97,9 @@ var app = new Vue({
     }
   },
   methods: {
+    removeTagFilter: function () {
+      this.selectedTag = "";
+    },
     addNewHabit: function () {
       var newHabit = {
         text: "Your title",

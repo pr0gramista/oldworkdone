@@ -125,6 +125,17 @@ div.inline-parent {
   height: 2rem;
   transition: height 0.5s; }
 
+.chip.big {
+  height: 48px;
+  border-radius: 24px;
+  font-size: 28px;
+  margin: 10px;
+  padding: 0 15px;
+  line-height: 48px; }
+  .chip.big i {
+    font-size: 28px;
+    line-height: 48px; }
+
 .chip i {
   opacity: 0;
   transition: opacity 0.2s; }
