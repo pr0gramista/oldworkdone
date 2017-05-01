@@ -48,6 +48,9 @@ Vue.component('habit', {
     },
     deleteTag: function (index) {
       this.habit.tags.splice(index, 1);
+    },
+    selectTag: function (index) {
+      this.$emit("selectTag", this.habit.tags[index]);
     }
   },
   template:
@@ -70,10 +73,10 @@ Vue.component('habit', {
           </ul>
         </div>
         <div :id="'chips-' + unique" class="chips">
-          <div v-for="(tag, index) in habit.tags "class="chip">
-            {{ tag }}
-            <i @click="deleteTag(index)" class="close material-icons">close</i>
-          </div>
+          <tag v-for="(text, index) in habit.tags
+            "class="chip" @click="selectTag(index)" :text="text" :index="index"
+            v-on:deleteThisTag="deleteTag(index)">
+          </tag>
           <input @keyup.enter="addTag" v-model="newTag" placeholder="New tag"/>
         </div>
       </div>
