@@ -2,9 +2,9 @@ Vue.component('todo', {
   props: ['todo', 'index'],
   watch: {
     todo: {
-      handler: function (todo) {
+      handler: _.debounce(function (todo) {
         todoRepository.save(todo);
-      },
+      }, 500),
       deep: true
     }
   },

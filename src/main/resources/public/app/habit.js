@@ -2,9 +2,9 @@ Vue.component('habit', {
   props: ['habit', 'index'],
   watch: {
     habit: {
-      handler: function (habit) {
+      handler: _.debounce(function (habit) {
         habitRepository.save(habit);
-      },
+      }, 500),
       deep: true
     }
   },
