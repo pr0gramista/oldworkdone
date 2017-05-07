@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="/css/materialize.css"/>
     <link rel="stylesheet" href="/css/style.css"/>
+    <script src='https://unpkg.com/packery@2.1.1/dist/packery.pkgd.min.js'></script>
+    <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -50,6 +52,31 @@
             {{ selectedTag }}
             <i class="close material-icons" @click="removeTagFilter()">close</i>
           </div>
+        </div>
+        <style>
+        .grid-item { width: 25%; }
+        .grid-item--width2 { width: 50%; }
+
+        </style>
+        <div class="grid">
+            <div class="grid-item grid-item--width2"></div>
+            <div class="grid-item grid-item--height2"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item grid-item--width2 grid-item--height2"></div>
+            <div class="grid-item grid-item--width2"></div>
+            <div class="grid-item grid-item--width2"></div>
+            <div class="grid-item grid-item--height2"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item grid-item--width2"></div>
+            <div class="grid-item grid-item--height2"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item grid-item--width2 grid-item--height2"></div>
+            <div class="grid-item"></div>
+            <div class="grid-item grid-item--width2"></div>
+            <div class="grid-item grid-item--height2"></div>
+            <div class="grid-item"></div>
         </div>
         <div class="row">
             <habit v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>

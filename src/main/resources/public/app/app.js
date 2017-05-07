@@ -137,3 +137,14 @@ var app = new Vue({
 })
 
 setInterval(app.refreshTodos, 5000);
+
+var $grid = $('.grid').packery({
+  itemSelector: '.grid-item',
+  gutter: 0,
+  columnWidth: 100
+});
+
+$grid.find('.grid-item').each( function( i, gridItem ) {
+  var draggie = new Draggabilly( gridItem );
+  $grid.packery( 'bindDraggabillyEvents', draggie );
+});
