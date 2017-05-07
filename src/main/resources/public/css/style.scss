@@ -268,14 +268,13 @@ input.generic {
 .grid-item {
   padding: 5px;
   float: left;
-  width: 100px;
-  height: 100px;
-  background: #C09;
+  width: 200px;
+  height: 200px;
   border: 2px solid hsla(0, 0%, 0%, 0.5);
 }
 
-.grid-item--width2 { width: 200px; }
-.grid-item--height2 { height: 200px; }
+.grid-item--width2 { width: 400px; }
+.grid-item--height2 { height: 400px; }
 
 .grid-item:hover {
   border-color: hsla(0, 0%, 100%, 0.5);

@@ -25,11 +25,16 @@ Vue.component('todo', {
   },
   mounted: function() {
     var unique = this.unique;
+    var element = this.$el;
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
           hover: true
         }
       );
+
+      $grid.prepend( element ).packery( 'prepended', element );
+      var draggie = new Draggabilly( element );
+      $grid.packery( 'bindDraggabillyEvents', draggie );
     })
   },
   methods: {
@@ -62,7 +67,7 @@ Vue.component('todo', {
     }
   },
   template:
-  `<div class="todo col s12 m6 l4 xl3">
+  `<div class="todo grid-item">
     <div class="card" v-bind:class="cardClass">
       <div class="card-content hover-visible-parent">
         <input v-model="todo.title" class="generic" />

@@ -25,11 +25,16 @@ Vue.component('habit', {
   mounted: function () {
     var unique = this.unique;
     var habit = this.habit;
+    var element = this.$el;
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
           hover: true
         }
       );
+
+      $grid.prepend( element ).packery( 'prepended', element );
+      var draggie = new Draggabilly( element );
+      $grid.packery( 'bindDraggabillyEvents', draggie );
     })
   },
   methods: {
@@ -55,7 +60,7 @@ Vue.component('habit', {
     }
   },
   template:
-  `<div class="habit col s12 m6 l4 xl3">
+  `<div class="habit grid-item">
     <div class="card" v-bind:class="cardClass">
       <div class="card-content hover-visible-parent">
         <textarea v-model="habit.text" />

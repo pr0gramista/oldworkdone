@@ -206,16 +206,15 @@ input.generic {
 .grid-item {
   padding: 5px;
   float: left;
-  width: 100px;
-  height: 100px;
-  background: #C09;
+  width: 200px;
+  height: 200px;
   border: 2px solid rgba(0, 0, 0, 0.5); }
 
 .grid-item--width2 {
-  width: 200px; }
+  width: 400px; }
 
 .grid-item--height2 {
-  height: 200px; }
+  height: 400px; }
 
 .grid-item:hover {
   border-color: rgba(255, 255, 255, 0.5);
