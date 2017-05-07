@@ -204,29 +204,22 @@ input.generic {
   clear: both; }
 
 .grid-item {
-  padding: 5px;
-  float: left;
-  width: 200px;
-  height: 200px;
-  border: 2px solid rgba(0, 0, 0, 0.5); }
-
-.grid-item--width2 {
-  width: 400px; }
-
-.grid-item--height2 {
-  height: 400px; }
+  padding-right: 5px;
+  padding-left: 5px;
+  width: 300px; }
+  @media screen and (max-width: 620px) {
+    .grid-item {
+      width: 100%; } }
 
 .grid-item:hover {
-  border-color: rgba(255, 255, 255, 0.5);
   cursor: move; }
 
 .grid-item.is-dragging,
 .grid-item.is-positioning-post-drag {
-  background: #C90;
   z-index: 2; }
 
 .packery-drop-placeholder {
-  outline: 3px dashed rgba(0, 0, 0, 0.5);
+  outline: 2px dashed rgba(0, 0, 0, 0.5);
   outline-offset: -6px;
   -webkit-transition: -webkit-transform 0.2s;
   transition: transform 0.2s; }
