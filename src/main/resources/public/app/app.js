@@ -72,11 +72,6 @@ Vue.component('dashboard', {
       selectedTag: ""
     };
   },
-  created: function () {
-    this.$on("selectTag", function (tag) {
-      this.selectedTag = tag;
-    });
-  },
   computed: {
     filteredTodos: function () {
       var tag = this.selectedTag;
@@ -104,6 +99,10 @@ Vue.component('dashboard', {
   methods: {
     removeTagFilter: function () {
       this.selectedTag = "";
+    },
+    setTag: function (tag) {
+      console.log("ELO");
+      this.selectedTag = tag;
     },
     addNewHabit: function () {
       var component = this;
@@ -156,8 +155,8 @@ Vue.component('dashboard', {
 
        </style>
        <div class="grid">
-           <habit v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
-           <todo v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
+           <habit v-on:selectTag="setTag" v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
+           <todo v-on:selectTag="setTag" v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
        </div>
        <div class="fixed-action-btn">
            <button class="btn-floating btn-large waves-effect waves-light amber">

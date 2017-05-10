@@ -62,8 +62,8 @@ Vue.component('todo', {
     deleteTag: function (index) {
       this.todo.tags.splice(index, 1);
     },
-    selectTag: function (index) {
-      this.$emit("selectTag", this.todo.tags[index]);
+    setTag: function (tag) {
+      this.$emit('selectTag', tag);
     }
   },
   template:
@@ -95,7 +95,7 @@ Vue.component('todo', {
         <div :id="'chips-' + unique" class="chips">
           <tag v-for="(text, index) in todo.tags
             "class="chip" @click="selectTag(index)" :text="text" :index="index"
-            v-on:deleteThisTag="deleteTag(index)">
+            v-on:deleteThisTag="deleteTag(index)" v-on:selectTag="setTag">
           </tag>
           <input @keyup.enter="addTag" v-model="newTag" placeholder="New tag"/>
         </div>
