@@ -1,3 +1,10 @@
+var router = new VueRouter({
+    mode: 'history',
+    base: window.location.href,
+    routes: []
+});
+
+
 var uid = function () {
     return 'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
 }
@@ -13,9 +20,9 @@ var levelGenerator = function(l) {
 }
 
 var habitRepository = {
-  fetch: function () {
+  fetch: function (component) {
     axios.get("/habit/").then(function (r) {
-      app.habits = r.data;
+      component.habits = r.data;
     })
   },
   save: function (habit) {
@@ -24,9 +31,9 @@ var habitRepository = {
 }
 
 var todoRepository = {
-  fetch: function () {
+  fetch: function (component) {
     axios.get("/todo/").then(function (r) {
-      app.todos = r.data;
+      component.todos = r.data;
     })
   },
   save: function (todo) {
@@ -57,15 +64,13 @@ var userRepository = {
   }
 }
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    habits: habitRepository.fetch(),
-    todos: todoRepository.fetch(),
-    user: userRepository.fetch(),
-    selectedTag: ""
-  },
-  watch: {
+Vue.component('dashboard', {
+  data: function () {
+    return {
+      habits: habitRepository.fetch(this),
+      todos: todoRepository.fetch(this),
+      selectedTag: ""
+    };
   },
   created: function () {
     this.$on("selectTag", function (tag) {
@@ -101,6 +106,7 @@ var app = new Vue({
       this.selectedTag = "";
     },
     addNewHabit: function () {
+      var component = this;
       var newHabit = {
         text: "Your title",
         color: "RED",
@@ -110,10 +116,11 @@ var app = new Vue({
       }
       axios.post("/habit/", newHabit).then(function (r) {
         newHabit.id = r.data; //id
-        app.habits.push(newHabit);
+        component.habits.push(newHabit);
       })
     },
     addNewTodo: function () {
+      var component = this;
       var newTodo = {
         title: "Your title",
         color: "BLUE",
@@ -124,7 +131,7 @@ var app = new Vue({
       }
       axios.post("/todo/", newTodo).then(function (r) {
         newTodo.id = r.data; //id
-        app.todos.push(newTodo);
+        component.todos.push(newTodo);
       })
     },
     addNewChallenge: function () {
@@ -133,10 +140,62 @@ var app = new Vue({
     refreshTodos: function () {
       habitRepository.fetch();
     }
+  },
+  template:
+    `
+    <div>
+      <div class="row" v-if="selectedTag.length > 0">
+         <div class="big chip">
+           {{ selectedTag }}
+           <i class="close material-icons" @click="removeTagFilter()">close</i>
+         </div>
+       </div>
+       <style>
+       .grid-item { width: 25%; }
+       .grid-item--width2 { width: 50%; }
+
+       </style>
+       <div class="grid">
+           <habit v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
+           <todo v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
+       </div>
+       <div class="fixed-action-btn">
+           <button class="btn-floating btn-large waves-effect waves-light amber">
+               <i class="large material-icons">add</i>
+           </button>
+           <ul>
+               <li>
+                   <button @click="addNewHabit" class="btn-floating blue darken-1"><i
+                           class="material-icons">thumb_up</i></button>
+               </li>
+               <li>
+                   <button @click="addNewTodo" class="btn-floating orange darken-1"><i class="material-icons">list</i>
+                   </button>
+               </li>
+               <li>
+                   <button @click="addNewChallenge" class="btn-floating teal darken-1"><i class="material-icons">linear_scale</i>
+                   </button>
+               </li>
+           </ul>
+       </div>
+     </div>
+    `
+});
+
+var app = new Vue({
+  router,
+  el: '#app',
+  data: {
+    user: userRepository.fetch()
+  },
+  methods: {
+    refreshTodos: function () {
+      habitRepository.fetch();
+    }
   }
 })
 
-setInterval(app.refreshTodos, 5000);
+//setInterval(app.refreshTodos, 5000);
 
 var $grid = $('.grid').packery({
   itemSelector: '.grid-item',

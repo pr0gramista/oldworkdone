@@ -10,6 +10,7 @@
             integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -47,40 +48,8 @@
 </header>
     <div>
     <main>
-        <div class="row" v-if="selectedTag.length > 0">
-          <div class="big chip">
-            {{ selectedTag }}
-            <i class="close material-icons" @click="removeTagFilter()">close</i>
-          </div>
-        </div>
-        <style>
-        .grid-item { width: 25%; }
-        .grid-item--width2 { width: 50%; }
-
-        </style>
-        <div class="grid">
-            <habit v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
-            <todo v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
-        </div>
-        <div class="fixed-action-btn">
-            <button class="btn-floating btn-large waves-effect waves-light amber">
-                <i class="large material-icons">add</i>
-            </button>
-            <ul>
-                <li>
-                    <button @click="addNewHabit" class="btn-floating blue darken-1"><i
-                            class="material-icons">thumb_up</i></button>
-                </li>
-                <li>
-                    <button @click="addNewTodo" class="btn-floating orange darken-1"><i class="material-icons">list</i>
-                    </button>
-                </li>
-                <li>
-                    <button @click="addNewChallenge" class="btn-floating teal darken-1"><i class="material-icons">linear_scale</i>
-                    </button>
-                </li>
-            </ul>
-        </div>
+        <router-view></router-view>
+        <dashboard></dashboard>
     </main>
 </div>
 </div>
