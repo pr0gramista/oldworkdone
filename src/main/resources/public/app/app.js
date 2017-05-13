@@ -101,8 +101,10 @@ Vue.component('dashboard', {
       this.selectedTag = "";
     },
     setTag: function (tag) {
-      console.log("ELO");
       this.selectedTag = tag;
+      Vue.nextTick(function () {
+        $grid.packery()
+      })
     },
     addNewHabit: function () {
       var component = this;
