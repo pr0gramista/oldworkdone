@@ -1,10 +1,3 @@
-var router = new VueRouter({
-    mode: 'history',
-    base: window.location.href,
-    routes: []
-});
-
-
 var uid = function () {
     return 'xxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {var r = Math.random()*16|0,v=c=='x'?r:r&0x3|0x8;return v.toString(16);});
 }
@@ -64,7 +57,7 @@ var userRepository = {
   }
 }
 
-Vue.component('dashboard', {
+var Dashboard = Vue.extend({
   data: function () {
     return {
       habits: habitRepository.fetch(this),
@@ -183,9 +176,19 @@ Vue.component('dashboard', {
     `
 });
 
+var router = new VueRouter({
+    mode: 'history',
+    base: window.location.href,
+    routes: [
+      { path: '/dashboard/', component: Dashboard }
+    ]
+});
+
+Vue.use(router);
+
 var app = new Vue({
-  router,
   el: '#app',
+  router,
   data: {
     user: userRepository.fetch()
   },
