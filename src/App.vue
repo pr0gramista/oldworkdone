@@ -1,7 +1,35 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <header>
+      <ul id="sidenav" class="side-nav fixed">
+        <div class="logo">
+          <img src="/images/workdone-logo-256.png"/>
+        </div>
+        <div class="profile">
+          <profile :user="user"></profile>
+        </div>
+        <li><a href="#!">Habits</a></li>
+        <li><a href="#!">Tasks</a></li>
+        <li><a href="#!">Profile</a></li>
+        <li><a href="#!">Settings</a></li>
+      </ul>
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo center">Workdone</a>
+          <a href="#" data-activates="sidenav" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a @click="refreshTodos" href="#"><i class="material-icons">refresh</i></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div>
+      <main>
+        <router-view></router-view>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -13,11 +41,5 @@ export default {
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
