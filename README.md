@@ -1,40 +1,27 @@
-![Workdone Logo](https://raw.githubusercontent.com/PoprostuRonin/workdone/master/logo-small.png)
-# Workdone [![Build Status](https://travis-ci.org/PoprostuRonin/workdone.svg?branch=master)](https://travis-ci.org/PoprostuRonin/workdone)
+# workdone
 
-**WORK IN PROGRESS**
+> Real productivity tool
 
-Workdone is a to-do-list, habit tracker game that helps getting work done. You can use Workdone by your favourite
-browser, Chrome app or Android app.
+## Build Setup
 
-## Planned features
-* To-do list with categories, time to complete
-* Habits tracking
-* Good/bad behaviours rewarding
-* Groups
+``` bash
+# install dependencies
+npm install
 
-## Technologies
-*Spring* as a backend, core of the application. *Vue.js* and *MDL* as a frontend kings.
-Android app built using SDK or *React Native*.
+# serve with hot reload at localhost:8080
+npm run dev
 
-## About
-This is a contest project for [Get noticed!](http://dajsiepoznac.pl) where I blog (on [pr0gramista.pl](https://pr0gramista.pl), in Polish) 
-about IT and this specific project.
+# build for production with minification
+npm run build
 
-#### Configuration:
-In application.yml:
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run all tests
+npm test
 ```
-google:
-  client:
-    clientId: <put your id>
-    clientSecret: <put your secret>
-    accessTokenUri: https://www.googleapis.com/oauth2/v4/token
-    userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
-    clientAuthenticationScheme: form
-    scope:
-      - openid
-      - email
-      - profile
-  resource:
-    userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
-    preferTokenInfo: true
-```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
