@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Generator from '/Generator'
+import Generator from '@/Generator'
 
 export default {
   name: 'habit',

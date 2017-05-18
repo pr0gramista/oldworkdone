@@ -31,12 +31,14 @@
 
 <script>
 import '@/components/Tag'
-import Generator from '/Generator'
+import Generator from '@/Generator'
 import Vue from 'vue'
+import Draggabilly from 'draggabilly'
+import $ from 'jquery'
 
 export default {
   name: 'habit',
-  props: ['habit', 'index'],
+  props: ['habit', 'index', 'grid'],
   watch: {
     habit: {
       /* handler: _.debounce(function (habit) {
@@ -60,17 +62,17 @@ export default {
     }
   },
   mounted: function () {
-    var unique = this.unique
-    var habit = this.habit
+    // var unique = this.unique
+    // var habit = this.habit
     var element = this.$el
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
         hover: true
       })
 
-      $grid.prepend(element).packery('prepended', element)
+      this.grid.prepend(element).packery('prepended', element)
       var draggie = new Draggabilly(element)
-      $grid.packery('bindDraggabillyEvents', draggie)
+      this.grid.packery('bindDraggabillyEvents', draggie)
     })
   },
   methods: {

@@ -39,12 +39,14 @@
 <script>
 import '@/components/Tag'
 import '@/components/Task'
-import Generator from '/Generator'
+import Generator from '@/Generator'
 import Vue from 'vue'
+import Draggabilly from 'draggabilly'
+import $ from 'jquery'
 
 export default {
   name: 'todo',
-  props: ['todo', 'index'],
+  props: ['todo', 'index', 'grid'],
   watch: {
     /* todo: {
       handler: _.debounce(function (todo) {
@@ -69,16 +71,16 @@ export default {
     }
   },
   mounted: function () {
-    var unique = this.unique
+    // var unique = this.unique
     var element = this.$el
     Vue.nextTick(function () {
       $('.dropdown-button').dropdown({
         hover: true
       })
 
-      $grid.prepend(element).packery('prepended', element)
+      this.grid.prepend(element).packery('prepended', element)
       var draggie = new Draggabilly(element)
-      $grid.packery('bindDraggabillyEvents', draggie)
+      this.grid.packery('bindDraggabillyEvents', draggie)
     })
   },
   methods: {
