@@ -3,7 +3,7 @@
     <header>
       <ul id="sidenav" class="side-nav fixed">
         <div class="logo">
-          <img src="/images/workdone-logo-256.png"/>
+          <img src="../assets/workdone-logo-256.png"/>
         </div>
         <div class="profile">
           <profile></profile>
