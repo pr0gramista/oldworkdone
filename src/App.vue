@@ -34,8 +34,17 @@
 </template>
 
 <script>
+
 export default {
-  name: 'app'
+  name: 'app',
+  mounted: function () {
+    /*eslint-disable */
+    $('.button-collapse').sideNav({
+      menuWidth: 240,
+      draggable: true
+    })
+    /*eslint-enable */
+  }
 }
 </script>
 
