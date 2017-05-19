@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
-import Front from '@/components/Front'
+import Landing from '@/components/Landing'
+import Work from '@/components/Work'
 
 Vue.use(Router)
 
@@ -9,13 +10,19 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Front',
-      component: Front
+      name: 'Landing',
+      component: Landing
     },
     {
-      path: '/dashboard',
-      name: 'Dashboard',
-      component: Dashboard
+      path: '/work',
+      name: 'Work',
+      component: Work,
+      children: [
+        {
+          path: '/',
+          component: Dashboard
+        }
+      ]
     }
   ]
 })

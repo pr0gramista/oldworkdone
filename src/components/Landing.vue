@@ -1,5 +1,6 @@
 <template>
   <div>
+    This is landing page!
     <button @click="loginWithGoogle">Login</button>
   </div>
 </template>
@@ -10,12 +11,12 @@ import firebase from 'firebase'
 var provider = new firebase.auth.GoogleAuthProvider()
 
 export default {
-  name: 'front',
+  name: 'landing',
   methods: {
     loginWithGoogle: function () {
-      const front = this
+      const landing = this
       firebase.auth().signInWithPopup(provider).then(function (result) {
-        front.$router.push('/dashboard')
+        landing.$router.push('/work')
       }).catch(function (error) {
         console.log('Got error on login with Google: ' + error)
       })

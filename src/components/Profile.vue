@@ -1,7 +1,7 @@
 <template>
-  <div class="profile center">
-    <img class="profile-picture center" :src="user.photo" />
-    <h4>{{ user.name }}</h4>
+  <div class="profile center" v-if="user != null">
+    <img class="profile-picture center" :src="user.photoURL" />
+    <h4>{{ user.displayName }}</h4>
     <i class="material-icons coins">attach_money</i> {{ user.coins }} | <i class="material-icons exp">school</i> {{ user.level }}
     <div class="progress">
       <div class="determinate" :style="levelStyle"></div>
@@ -11,10 +11,15 @@
 
 <script>
 import Generator from '@/Generator'
+import firebase from 'firebase'
 
 export default {
-  name: 'habit',
-  props: ['user'],
+  name: 'profile',
+  data: function () {
+    return {
+      user: null
+    }
+  },
   computed: {
     levelStyle: function () {
       var currentLevelExperience = Generator.levelGenerator(this.user.level)
@@ -22,6 +27,14 @@ export default {
       var deltaNextLevelExperience = Generator.levelGenerator(this.user.level + 1) - currentLevelExperience
       return 'width: ' + deltaCurrentLevelExperience / deltaNextLevelExperience * 100 + '%;'
     }
+  },
+  mounted: function () {
+    var profile = this
+    firebase.auth().onAuthStateChanged(function (newUser) {
+      if (newUser) {
+        profile.user = newUser
+      }
+    })
   }
 }
 </script>
