@@ -14,7 +14,7 @@
 import Generator from '@/Generator'
 
 export default {
-  name: 'habit',
+  name: 'task',
   props: ['task', 'todo', 'index'],
   data: function () {
     return {

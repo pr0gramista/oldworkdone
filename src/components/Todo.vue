@@ -37,23 +37,26 @@
 </template>
 
 <script>
-import '@/components/Tag'
-import '@/components/Task'
+import Tag from '@/components/Tag'
+import Task from '@/components/Task'
 import Generator from '@/Generator'
 import Vue from 'vue'
 import Draggabilly from 'draggabilly'
-import $ from 'jquery'
+import _ from 'lodash'
 
 export default {
   name: 'todo',
   props: ['todo', 'index', 'grid'],
+  components: {
+    Task, Tag
+  },
   watch: {
-    /* todo: {
+    todo: {
       handler: _.debounce(function (todo) {
-        // todoRepository.save(todo)
+        this.$emit('saveTodo', this.todo)
       }, 500),
       deep: true
-    } */
+    }
   },
   data: function () {
     return {
@@ -71,16 +74,17 @@ export default {
     }
   },
   mounted: function () {
-    // var unique = this.unique
     var element = this.$el
     Vue.nextTick(function () {
+      /*eslint-disable */
       $('.dropdown-button').dropdown({
         hover: true
       })
 
-      this.grid.prepend(element).packery('prepended', element)
+      window.$grid.prepend(element).packery('prepended', element)
       var draggie = new Draggabilly(element)
-      this.grid.packery('bindDraggabillyEvents', draggie)
+      window.$grid.packery('bindDraggabillyEvents', draggie)
+      /*eslint-enable */
     })
   },
   methods: {
@@ -89,6 +93,11 @@ export default {
     },
     addNewTask: function () {
       if (this.newTask.length > 0) {
+        // Create task list if it doesn't exist
+        if (this.todo.tasks === undefined) {
+          this.$set(this.todo, 'tasks', [])
+        }
+
         this.todo.tasks.push({
           content: this.newTask,
           done: false
@@ -101,6 +110,11 @@ export default {
     },
     addTag: function () {
       if (this.newTag.length > 0) {
+        // Create tag list if it doesn't exist
+        if (this.todo.tags === undefined) {
+          this.$set(this.todo, 'tags', [])
+        }
+
         this.todo.tags.push(this.newTag)
         this.newTag = ''
       }

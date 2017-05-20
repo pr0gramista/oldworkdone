@@ -7,8 +7,8 @@
       </div>
     </div>
     <div class="grid">
-      <habit v-on:selectTag="setTag" v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" :key="habit.id"></habit>
-      <todo v-on:selectTag="setTag" v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" :key="todo.id"></todo>
+      <habit v-on:selectTag="setTag" v-for="(habit, index) in filteredHabits" :habit="habit" :index="index" v-on:saveHabit="saveHabit"></habit>
+      <todo v-on:selectTag="setTag" v-for="(todo, index) in filteredTodos" :todo="todo" :index="index" v-on:saveTodo="saveTodo"></todo>
     </div>
     <div class="fixed-action-btn">
       <button class="btn-floating btn-large waves-effect waves-light amber">
@@ -35,15 +35,24 @@
 <script>
 import Vue from 'vue'
 import '@/components/Profile'
-import '@/components/Todo'
-import '@/components/Habit'
+import Todo from '@/components/Todo'
+import Habit from '@/components/Habit'
+import firebase from 'firebase'
+import _ from 'lodash'
 
 export default {
   name: 'dashboard',
+  components: {
+    Todo, Habit
+  },
+  firebase: function () {
+    return {
+      habits: firebase.apps[0].database().ref('habits/'),
+      todos: firebase.apps[0].database().ref('todos/')
+    }
+  },
   data: function () {
     return {
-      habits: [], // habitRepository.fetch(this),
-      todos: [], // todoRepository.fetch(this),
       selectedTag: ''
     }
   },
@@ -69,6 +78,14 @@ export default {
       }
     }
   },
+  mounted: function () {
+    /*eslint-disable */
+    window.$grid = $('.grid').packery({
+      itemSelector: '.grid-item',
+      gutter: 0
+    })
+    /*eslint-enable */
+  },
   methods: {
     removeTagFilter: function () {
       this.selectedTag = ''
@@ -76,25 +93,20 @@ export default {
     setTag: function (tag) {
       this.selectedTag = tag
       Vue.nextTick(function () {
-        // $grid.packery()
+
       })
     },
     addNewHabit: function () {
-      /* var component = this
       var newHabit = {
-        title: 'Your title',
+        text: 'Your text',
         color: 'BLUE',
         expReward: 'MEDIUM',
         coinReward: 'MEDIUM',
         tags: []
-      } */
-      /* axios.post("/habit/", newHabit).then(function (r) {
-        newHabit.id = r.data //id
-        component.habits.push(newHabit)
-      }) */
+      }
+      this.$firebaseRefs.habits.push(newHabit)
     },
     addNewTodo: function () {
-      /* var component = this
       var newTodo = {
         title: 'Your title',
         color: 'BLUE',
@@ -102,17 +114,28 @@ export default {
         coinReward: 'MEDIUM',
         tasks: [],
         tags: []
-      } */
-      /* axios.post("/todo/", newTodo).then(function (r) {
-        newTodo.id = r.data; //id
-        component.todos.push(newTodo)
-      }) */
+      }
+      this.$firebaseRefs.todos.push(newTodo)
     },
     addNewChallenge: function () {
       console.log('Add new challenge')
     },
     refreshTodos: function () {
       // habitRepository.fetch()
+    },
+    saveTodo: function (todo) {
+      const key = todo['.key']
+
+      var todoToSave = _.clone(todo)
+      delete todoToSave['.key']
+      this.$firebaseRefs.todos.child(key).set(todoToSave)
+    },
+    saveHabit: function (habit) {
+      const key = habit['.key']
+
+      var habitToSave = _.clone(habit)
+      delete habitToSave['.key']
+      this.$firebaseRefs.habits.child(key).set(habitToSave)
     }
   }
 }

@@ -30,21 +30,24 @@
 </template>
 
 <script>
-import '@/components/Tag'
+import Tag from '@/components/Tag'
 import Generator from '@/Generator'
 import Vue from 'vue'
 import Draggabilly from 'draggabilly'
-import $ from 'jquery'
+import _ from 'lodash'
 
 export default {
   name: 'habit',
   props: ['habit', 'index', 'grid'],
+  components: {
+    Tag
+  },
   watch: {
     habit: {
-      /* handler: _.debounce(function (habit) {
-        habitRepository.save(habit)
+      handler: _.debounce(function (habit) {
+        this.$emit('saveHabit', this.habit)
       }, 500),
-      deep: true */
+      deep: true
     }
   },
   data: function () {
@@ -62,17 +65,17 @@ export default {
     }
   },
   mounted: function () {
-    // var unique = this.unique
-    // var habit = this.habit
     var element = this.$el
     Vue.nextTick(function () {
+      /*eslint-disable */
       $('.dropdown-button').dropdown({
         hover: true
       })
 
-      this.grid.prepend(element).packery('prepended', element)
+      window.$grid.prepend(element).packery('prepended', element)
       var draggie = new Draggabilly(element)
-      this.grid.packery('bindDraggabillyEvents', draggie)
+      window.$grid.packery('bindDraggabillyEvents', draggie)
+      /*eslint-enable */
     })
   },
   methods: {
@@ -86,6 +89,11 @@ export default {
     },
     addTag: function () {
       if (this.newTag.length > 0) {
+        // Create tag list if it doesn't exist
+        if (this.habit.tags === undefined) {
+          this.$set(this.habit, 'tags', [])
+        }
+
         this.habit.tags.push(this.newTag)
         this.newTag = ''
       }

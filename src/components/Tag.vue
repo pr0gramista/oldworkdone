@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'habit',
+  name: 'tag',
   props: ['text', 'index'],
   data: function () {
     return {
