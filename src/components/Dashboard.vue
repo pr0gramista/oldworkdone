@@ -82,7 +82,8 @@ export default {
     /*eslint-disable */
     window.$grid = $('.grid').packery({
       itemSelector: '.grid-item',
-      gutter: 0
+      gutter: 0,
+      columnWidth: 300
     })
     /*eslint-enable */
   },
@@ -142,7 +143,4 @@ export default {
 </script>
 
 <style scoped>
-.grid-item { width: 25%; }
-.grid-item--width2 { width: 50%; }
-
 </style>
