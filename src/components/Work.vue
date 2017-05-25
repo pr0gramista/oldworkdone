@@ -17,10 +17,8 @@
         <div class="nav-wrapper">
           <a href="#" class="brand-logo center">Workdone</a>
           <a href="#" data-activates="sidenav" class="button-collapse"><i class="material-icons">menu</i></a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a @click="refreshTodos" href="#"><i class="material-icons">refresh</i></a></li>
+          <ul id="nav-mobile" class="right">
+            <li><a href="#">Make profile picture here!</a></li>
           </ul>
         </div>
       </nav>

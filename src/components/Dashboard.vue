@@ -34,7 +34,6 @@
 
 <script>
 import Vue from 'vue'
-import '@/components/Profile'
 import Todo from '@/components/Todo'
 import Habit from '@/components/Habit'
 import firebase from 'firebase'
@@ -47,8 +46,8 @@ export default {
   },
   firebase: function () {
     return {
-      habits: firebase.apps[0].database().ref('habits/'),
-      todos: firebase.apps[0].database().ref('todos/')
+      habits: firebase.database().ref('habits/'),
+      todos: firebase.database().ref('todos/')
     }
   },
   data: function () {
@@ -122,9 +121,6 @@ export default {
     },
     addNewChallenge: function () {
       console.log('Add new challenge')
-    },
-    refreshTodos: function () {
-      // habitRepository.fetch()
     },
     saveTodo: function (todo) {
       const key = todo['.key']
