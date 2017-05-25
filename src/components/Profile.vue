@@ -22,9 +22,9 @@ export default {
   },
   computed: {
     levelStyle: function () {
-      var currentLevelExperience = Generator.levelGenerator(this.user.level)
+      var currentLevelExperience = Generator.generateLevelExperience(this.user.level)
       var deltaCurrentLevelExperience = this.user.experience - currentLevelExperience
-      var deltaNextLevelExperience = Generator.levelGenerator(this.user.level + 1) - currentLevelExperience
+      var deltaNextLevelExperience = Generator.generateLevelExperience(this.user.level + 1) - currentLevelExperience
       return 'width: ' + deltaCurrentLevelExperience / deltaNextLevelExperience * 100 + '%;'
     }
   },

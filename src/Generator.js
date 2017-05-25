@@ -6,8 +6,13 @@ export default {
       return v.toString(16)
     })
   },
-  levelGenerator: function (l) {
-    l = l - 1
-    return l * l * 100
+  generateLevelExperience: function (level) {
+    return level * level * 100 + level * 200 + 100
+  },
+  generateExperience: function () {
+    return 100 + Math.floor(Math.random() * 50)
+  },
+  generateCoins: function () {
+    return 100 + Math.floor(Math.random() * 50)
   }
 }
