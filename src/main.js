@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import VueFire from 'vuefire'
 import firebase from 'firebase'
 
@@ -24,6 +25,7 @@ firebase.initializeApp(config)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
