@@ -25,6 +25,14 @@ export default {
         console.log('Got error on login with Google: ' + error)
       })
     }
+  },
+  mounted: function () {
+    const landing = this
+    firebase.auth().onAuthStateChanged(function (newUser) {
+      if (newUser) {
+        landing.$router.push('/work')
+      }
+    })
   }
 }
 </script>
