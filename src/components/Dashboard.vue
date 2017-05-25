@@ -61,7 +61,7 @@ export default {
       var tag = this.selectedTag
       if (this.todos !== null && this.selectedTag.length > 0) {
         return this.todos.filter(function (todo) {
-          return todo.tags.indexOf(tag) !== -1
+          return todo.tags != null && todo.tags.indexOf(tag) !== -1
         })
       } else {
         return this.todos
@@ -71,7 +71,7 @@ export default {
       var tag = this.selectedTag
       if (this.habits !== null && this.selectedTag.length > 0) {
         return this.habits.filter(function (habit) {
-          return habit.tags.indexOf(tag) !== -1
+          return habit.tags != null && habit.tags.indexOf(tag) !== -1
         })
       } else {
         return this.habits
@@ -94,7 +94,9 @@ export default {
     setTag: function (tag) {
       this.selectedTag = tag
       Vue.nextTick(function () {
-
+        /*eslint-disable */
+        window.$grid.packery()
+        /*eslint-enable */
       })
     },
     addNewHabit: function () {

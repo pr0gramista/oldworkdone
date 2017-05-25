@@ -10,11 +10,11 @@
             <div class="color-icon" v-bind:class="colorDropdownClass"></div>
           </a>
           <ul :id="'dropdown-' + unique" class='dropdown-content'>
-            <li><a href="#" @click="setColor('RED')"><div class="color-icon red"></div></a></li>
-            <li><a href="#" @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
-            <li><a href="#" @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
-            <li><a href="#" @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
-            <li><a href="#" @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
+            <li><a @click="setColor('RED')"><div class="color-icon red"></div></a></li>
+            <li><a @click="setColor('BLUE')"><div class="color-icon blue"></div></a></li>
+            <li><a @click="setColor('GREEN')"><div class="color-icon green"></div></a></li>
+            <li><a @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
+            <li><a @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
         </div>
         <div :id="'chips-' + unique" class="chips">
