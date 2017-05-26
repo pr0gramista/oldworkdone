@@ -44,15 +44,22 @@ export default {
   components: {
     Todo, Habit
   },
-  firebase: function () {
-    return {
-      habits: firebase.database().ref('habits/'),
-      todos: firebase.database().ref('todos/')
-    }
+  created: function () {
+    var dashboard = this
+    this.$store.watch(
+      function () {
+        return dashboard.$store.getters.uuid
+      },
+      function (uuid) {
+        dashboard.updateReferences()
+      }
+    )
   },
   data: function () {
     return {
-      selectedTag: ''
+      selectedTag: '',
+      habits: [],
+      todos: []
     }
   },
   computed: {
@@ -87,6 +94,10 @@ export default {
     /*eslint-enable */
   },
   methods: {
+    updateReferences: function () {
+      this.$bindAsArray('habits', firebase.database().ref(this.$store.getters.uuid + '/habits/'))
+      this.$bindAsArray('todos', firebase.database().ref(this.$store.getters.uuid + '/todos/'))
+    },
     removeTagFilter: function () {
       this.selectedTag = ''
     },

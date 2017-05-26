@@ -29,3 +29,9 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+firebase.auth().onAuthStateChanged(function (newUser) {
+  if (newUser) {
+    store.commit('user', newUser)
+  }
+})
