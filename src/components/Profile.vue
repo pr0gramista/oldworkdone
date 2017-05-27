@@ -2,7 +2,7 @@
   <div class="profile center" v-if="user != null">
     <img class="profile-picture center" :src="user.photoURL" />
     <h4>{{ user.displayName }}</h4>
-    <i class="material-icons coins">attach_money</i> {{ user.coins }} | <i class="material-icons exp">school</i> {{ user.level }}
+    <i class="material-icons coins">attach_money</i> {{ userData.coins }} | <i class="material-icons exp">school</i> {{ userData.level }}
     <div class="progress">
       <div class="determinate" :style="levelStyle"></div>
     </div>
@@ -14,6 +14,7 @@ import Generator from '@/Generator'
 import firebase from 'firebase'
 
 export default {
+  props: ['userData'],
   name: 'profile',
   data: function () {
     return {

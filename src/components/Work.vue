@@ -6,7 +6,7 @@
           <img src="../assets/workdone-logo-256.png"/>
         </div>
         <div class="profile">
-          <profile></profile>
+          <profile :userData="userData"></profile>
         </div>
         <li><a href="#!">Habits</a></li>
         <li><a href="#!">Tasks</a></li>
@@ -33,9 +33,18 @@
 
 <script>
 import Profile from '@/components/Profile'
+import firebase from 'firebase'
 
 export default {
   name: 'work',
+  data: function () {
+    return {
+      userData: {
+        coins: 0,
+        level: 1
+      }
+    }
+  },
   mounted: function () {
     /*eslint-disable */
     $('.button-collapse').sideNav({
@@ -44,8 +53,24 @@ export default {
     })
     /*eslint-enable */
   },
+  created: function () {
+    var workdone = this
+    this.$store.watch(
+      function () {
+        return workdone.$store.getters.uuid
+      },
+      function (uuid) {
+        workdone.updateReferences()
+      }
+    )
+  },
   components: {
     Profile
+  },
+  methods: {
+    updateReferences: function () {
+      this.$bindAsObject('userData', firebase.database().ref(this.$store.getters.uuid + '/user/'))
+    }
   }
 }
 </script>
