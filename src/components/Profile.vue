@@ -11,31 +11,20 @@
 
 <script>
 import Generator from '@/Generator'
-import firebase from 'firebase'
 
 export default {
   props: ['userData'],
   name: 'profile',
-  data: function () {
-    return {
-      user: null
-    }
-  },
   computed: {
+    user: function () {
+      return this.$store.state.user
+    },
     levelStyle: function () {
       var currentLevelExperience = Generator.generateLevelExperience(this.user.level)
       var deltaCurrentLevelExperience = this.user.experience - currentLevelExperience
       var deltaNextLevelExperience = Generator.generateLevelExperience(this.user.level + 1) - currentLevelExperience
       return 'width: ' + deltaCurrentLevelExperience / deltaNextLevelExperience * 100 + '%;'
     }
-  },
-  mounted: function () {
-    var profile = this
-    firebase.auth().onAuthStateChanged(function (newUser) {
-      if (newUser) {
-        profile.user = newUser
-      }
-    })
   }
 }
 </script>
