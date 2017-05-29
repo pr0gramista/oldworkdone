@@ -1,8 +1,14 @@
-# workdone
+![Workdone Logo](https://raw.githubusercontent.com/PoprostuRonin/workdone-backend/master/logo-small.png)
+# Workdone
 
-> Real productivity tool
+**WORK IN PROGRESS**
 
-## Build Setup
+Workdone is a to-do-list, habit tracker game that helps getting work done. You can use Workdone by your favourite
+browser, Chrome app or Android app. 
+
+Workdone primarily uses Firebase as its backend solution. As frontend framework we use Vue.js with all it's flavour including [vue-loader](https://github.com/vuejs/vue-loader), [vue-router](https://github.com/vuejs/vue-router) and [Vuex](https://github.com/vuejs/vuex). We also use Materialize, material design CSS bundle and Packery, the grid item solution.
+
+## How to start?
 
 ``` bash
 # install dependencies
@@ -13,15 +19,7 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
+**All contributions are welcome**
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Workdone in the past had its own backend which you can find here: [/workdone-backend](https://github.com/PoprostuRonin/workdone-backend)
