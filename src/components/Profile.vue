@@ -11,10 +11,15 @@
 
 <script>
 import Generator from '@/Generator'
+import firebase from 'firebase'
 
 export default {
-  props: ['userData'],
   name: 'profile',
+  data: function () {
+    return {
+      userData: {}
+    }
+  },
   computed: {
     user: function () {
       return this.$store.state.user
@@ -24,6 +29,26 @@ export default {
       var deltaCurrentLevelExperience = this.user.experience - currentLevelExperience
       var deltaNextLevelExperience = Generator.generateLevelExperience(this.user.level + 1) - currentLevelExperience
       return 'width: ' + deltaCurrentLevelExperience / deltaNextLevelExperience * 100 + '%;'
+    }
+  },
+  created: function () {
+    var profile = this
+    if (profile.$store.getters.uuid != null) {
+      profile.updateReferences()
+    } else {
+      this.$store.watch(
+        function () {
+          return profile.$store.getters.uuid
+        },
+        function (uuid) {
+          profile.updateReferences()
+        }
+      )
+    }
+  },
+  methods: {
+    updateReferences: function () {
+      this.$bindAsObject('userData', firebase.database().ref(this.$store.getters.uuid + '/user/'))
     }
   }
 }

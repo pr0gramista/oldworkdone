@@ -33,7 +33,6 @@
 
 <script>
 import Profile from '@/components/Profile'
-import firebase from 'firebase'
 
 export default {
   name: 'work',
@@ -53,24 +52,8 @@ export default {
     })
     /*eslint-enable */
   },
-  created: function () {
-    var workdone = this
-    this.$store.watch(
-      function () {
-        return workdone.$store.getters.uuid
-      },
-      function (uuid) {
-        workdone.updateReferences()
-      }
-    )
-  },
   components: {
     Profile
-  },
-  methods: {
-    updateReferences: function () {
-      this.$bindAsObject('userData', firebase.database().ref(this.$store.getters.uuid + '/user/'))
-    }
   }
 }
 </script>
