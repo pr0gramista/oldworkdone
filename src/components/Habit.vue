@@ -35,6 +35,7 @@ import Generator from '@/Generator'
 import Vue from 'vue'
 import Draggabilly from 'draggabilly'
 import _ from 'lodash'
+import executor from '@/executor'
 
 export default {
   name: 'habit',
@@ -83,9 +84,13 @@ export default {
       this.habit.color = color
     },
     done: function () {
-      /* axios.get("/habit/" + this.habit.id + "/done/").then(function (r) {
-        reward(r.data.experience, r.data.coins)
-      }); */
+      const experience = Generator.generateExperience()
+      const coins = Generator.generateCoins()
+      executor.addExperience(experience)
+      executor.addCoins(coins)
+      /*eslint-disable */
+      Materialize.toast('You have received ' + experience + ' exp and ' + coins + ' coins', 4000)
+      /*eslint-enable */
     },
     addTag: function () {
       if (this.newTag.length > 0) {
