@@ -46,14 +46,19 @@ export default {
   },
   created: function () {
     var dashboard = this
-    this.$store.watch(
-      function () {
-        return dashboard.$store.getters.uuid
-      },
-      function (uuid) {
-        dashboard.updateReferences()
-      }
-    )
+    if (dashboard.$store.getters.uuid != null) {
+      dashboard.updateReferences()
+    } else {
+      this.$store.watch(
+        function () {
+          return dashboard.$store.getters.uuid
+        },
+        function (uuid) {
+          console.log(uuid)
+          dashboard.updateReferences()
+        }
+      )
+    }
   },
   data: function () {
     return {
