@@ -30,10 +30,13 @@ export default {
     displayCoins: function () {
       return this.userData.coins != null ? this.userData.coins : 0
     },
+    displayExperience: function () {
+      return this.userData.experience != null ? this.userData.experience : 0
+    },
     levelStyle: function () {
-      var currentLevelExperience = Generator.generateLevelExperience(this.userData.level)
-      var deltaCurrentLevelExperience = this.userData.experience - currentLevelExperience
-      var deltaNextLevelExperience = Generator.generateLevelExperience(this.userData.level + 1) - currentLevelExperience
+      var currentLevelExperience = Generator.generateLevelExperience(this.displayLevel)
+      var deltaCurrentLevelExperience = this.displayExperience - currentLevelExperience
+      var deltaNextLevelExperience = Generator.generateLevelExperience(this.displayLevel + 1) - currentLevelExperience
       return 'width: ' + deltaCurrentLevelExperience / deltaNextLevelExperience * 100 + '%;'
     }
   },
