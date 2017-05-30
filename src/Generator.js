@@ -6,7 +6,9 @@ export default {
       return v.toString(16)
     })
   },
+  /* Amount of experience required to get on given level fe. 100 -> 1.000.000 EXP */
   generateLevelExperience: function (level) {
+    level = level - 1
     return level * level * 100 + level * 200 + 100
   },
   generateExperience: function () {

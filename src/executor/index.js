@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import store from '@/store'
+import Generator from '@/Generator'
 
 const defaultExperience = 0
 const defaultLevel = 1
@@ -19,12 +20,16 @@ export default {
       }
 
       let newExperience = experience + amount
-      let newLevel = level + 1
 
-      firebase.database().ref(uid + '/user/').update({
-        'experience': newExperience,
-        'level': newLevel
-      })
+      let update = {}
+
+      while (newExperience > Generator.generateLevelExperience(level + 1)) {
+        update['level'] = level + 1
+        level = level + 1
+      }
+
+      update['experience'] = newExperience
+      firebase.database().ref(uid + '/user/').update(update)
     })
   },
   addCoins: function (amount) {
