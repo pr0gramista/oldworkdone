@@ -43,6 +43,7 @@ import Generator from '@/Generator'
 import Vue from 'vue'
 import Draggabilly from 'draggabilly'
 import _ from 'lodash'
+import executor from '@/executor'
 
 export default {
   name: 'todo',
@@ -53,6 +54,13 @@ export default {
   watch: {
     todo: {
       handler: _.debounce(function (todo) {
+        // No more tasks left to do
+        let tasksDone = this.todo.tasks.filter(task => task.done == null || !task.done)
+        if (tasksDone.length === 0 && !this.todo.done) {
+          this.todo.done = true
+          this.done()
+        }
+
         this.$emit('saveTodo', this.todo)
       }, 500),
       deep: true
@@ -118,6 +126,15 @@ export default {
         this.todo.tags.push(this.newTag)
         this.newTag = ''
       }
+    },
+    done: function () {
+      const experience = Generator.generateExperience()
+      const coins = Generator.generateCoins()
+      executor.addExperience(experience)
+      executor.addCoins(coins)
+      /*eslint-disable */
+      Materialize.toast('You have done it! This is your reward: ' + experience + ' exp and ' + coins + ' coins', 4000)
+      /*eslint-enable */
     },
     deleteTag: function (index) {
       this.todo.tags.splice(index, 1)
