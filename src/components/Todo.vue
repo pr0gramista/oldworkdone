@@ -23,6 +23,7 @@
             <li><a @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
+          <button class="circle-button"><i class="material-icons">{{ valueIcon }}</i></button>
         </div>
         <div :id="'chips-' + unique" class="chips">
           <tag v-for="(text, index) in todo.tags
@@ -74,6 +75,18 @@ export default {
     }
   },
   computed: {
+    valueIcon: function () {
+      if (this.todo.value === null) {
+        return 'star_border'
+      }
+
+      if (this.todo.value === 'HIGH') {
+        return 'star'
+      } else if (this.todo.value === 'HIGHER') {
+        return 'star_half'
+      }
+      return 'star_border'
+    },
     cardClass: function () {
       return 'color-' + this.todo.color.toLowerCase()
     },
