@@ -118,8 +118,7 @@ export default {
       var newHabit = {
         text: 'Your text',
         color: 'BLUE',
-        expReward: 'MEDIUM',
-        coinReward: 'MEDIUM',
+        value: 'NORMAL',
         tags: []
       }
       this.$firebaseRefs.habits.push(newHabit)
@@ -128,8 +127,7 @@ export default {
       var newTodo = {
         title: 'Your title',
         color: 'BLUE',
-        expReward: 'MEDIUM',
-        coinReward: 'MEDIUM',
+        value: 'NORMAL',
         tasks: [],
         tags: []
       }

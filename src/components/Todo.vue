@@ -23,7 +23,7 @@
             <li><a @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
-          <button class="circle-button"><i class="material-icons">{{ valueIcon }}</i></button>
+          <button @click="changeValue()" class="circle-button"><i class="material-icons">{{ valueIcon }}</i></button>
         </div>
         <div :id="'chips-' + unique" class="chips">
           <tag v-for="(text, index) in todo.tags
@@ -45,6 +45,13 @@ import Vue from 'vue'
 import Draggabilly from 'draggabilly'
 import _ from 'lodash'
 import executor from '@/executor'
+
+var valueTypes = [
+  'NORMAL', 'HIGHER', 'HIGH'
+]
+var valueTypesIcons = [
+  'star_border', 'star_half', 'star'
+]
 
 export default {
   name: 'todo',
@@ -76,16 +83,12 @@ export default {
   },
   computed: {
     valueIcon: function () {
-      if (this.todo.value === null) {
-        return 'star_border'
+      let index = valueTypes.indexOf(this.todo.value)
+      if (index === -1) {
+        return valueTypesIcons[0]
+      } else {
+        return valueTypesIcons[index]
       }
-
-      if (this.todo.value === 'HIGH') {
-        return 'star'
-      } else if (this.todo.value === 'HIGHER') {
-        return 'star_half'
-      }
-      return 'star_border'
     },
     cardClass: function () {
       return 'color-' + this.todo.color.toLowerCase()
@@ -124,6 +127,15 @@ export default {
           done: false
         })
         this.newTask = ''
+      }
+    },
+    changeValue: function () {
+      let index = valueTypes.indexOf(this.todo.value)
+      if (index === -1) {
+        this.todo.value = valueTypes[0]
+      } else {
+        index = index + 1 >= valueTypes.length ? 0 : index + 1
+        this.todo.value = valueTypes[index]
       }
     },
     deleteTask: function (index) {

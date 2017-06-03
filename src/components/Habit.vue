@@ -16,6 +16,7 @@
             <li><a @click="setColor('WHITE')"><div class="color-icon white"></div></a></li>
             <li><a @click="setColor('GRAY')"><div class="color-icon gray"></div></a></li>
           </ul>
+          <button @click="changeValue()" class="circle-button"><i class="material-icons">{{ valueIcon }}</i></button>
         </div>
         <div :id="'chips-' + unique" class="chips">
           <tag v-for="(text, index) in habit.tags
@@ -36,6 +37,13 @@ import Vue from 'vue'
 import Draggabilly from 'draggabilly'
 import _ from 'lodash'
 import executor from '@/executor'
+
+var valueTypes = [
+  'NORMAL', 'HIGHER', 'HIGH'
+]
+var valueTypesIcons = [
+  'star_border', 'star_half', 'star'
+]
 
 export default {
   name: 'habit',
@@ -58,6 +66,14 @@ export default {
     }
   },
   computed: {
+    valueIcon: function () {
+      let index = valueTypes.indexOf(this.habit.value)
+      if (index === -1) {
+        return valueTypesIcons[0]
+      } else {
+        return valueTypesIcons[index]
+      }
+    },
     cardClass: function () {
       return 'color-' + this.habit.color.toLowerCase()
     },
@@ -91,6 +107,16 @@ export default {
       /*eslint-disable */
       Materialize.toast('You have received ' + experience + ' exp and ' + coins + ' coins', 4000)
       /*eslint-enable */
+    },
+    changeValue: function () {
+      let index = valueTypes.indexOf(this.habit.value)
+      if (index === -1) {
+        this.habit.value = valueTypes[0]
+        this.$forceUpdate()
+      } else {
+        index = index + 1 >= valueTypes.length ? 0 : index + 1
+        this.habit.value = valueTypes[index]
+      }
     },
     addTag: function () {
       if (this.newTag.length > 0) {
