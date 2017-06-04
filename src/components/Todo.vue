@@ -55,6 +55,8 @@ const valueTypesIcons = [
 const valueFactor = [
   1, 1.5, 2
 ]
+const baseRewardFactor = 0.25
+const perTaskRewardFactor = 0.75
 
 export default {
   name: 'todo',
@@ -164,8 +166,8 @@ export default {
       }
     },
     done: function () {
-      const experience = Generator.generateExperience() * this.valueFactor
-      const coins = Generator.generateCoins() * this.valueFactor
+      const experience = Generator.generateExperience() * this.valueFactor * baseRewardFactor + Generator.generateExperience() * this.todo.tasks.length * perTaskRewardFactor
+      const coins = Generator.generateCoins() * this.valueFactor * baseRewardFactor + Generator.generateCoins() * this.todo.tasks.length * perTaskRewardFactor
       executor.addExperience(experience)
       executor.addCoins(coins)
       /*eslint-disable */
