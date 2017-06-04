@@ -38,11 +38,14 @@ import Draggabilly from 'draggabilly'
 import _ from 'lodash'
 import executor from '@/executor'
 
-var valueTypes = [
+const valueTypes = [
   'NORMAL', 'HIGHER', 'HIGH'
 ]
-var valueTypesIcons = [
+const valueTypesIcons = [
   'star_border', 'star_half', 'star'
+]
+const valueFactor = [
+  1, 1.5, 2
 ]
 
 export default {
@@ -74,6 +77,14 @@ export default {
         return valueTypesIcons[index]
       }
     },
+    valueFactor: function () {
+      let index = valueTypes.indexOf(this.habit.value)
+      if (index === -1) {
+        return valueFactor[0]
+      } else {
+        return valueFactor[index]
+      }
+    },
     cardClass: function () {
       return 'color-' + this.habit.color.toLowerCase()
     },
@@ -100,8 +111,8 @@ export default {
       this.habit.color = color
     },
     done: function () {
-      const experience = Generator.generateExperience()
-      const coins = Generator.generateCoins()
+      const experience = Generator.generateExperience() * this.valueFactor
+      const coins = Generator.generateCoins() * this.valueFactor
       executor.addExperience(experience)
       executor.addCoins(coins)
       /*eslint-disable */
