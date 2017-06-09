@@ -68,10 +68,12 @@ export default {
     todo: {
       handler: _.debounce(function (todo) {
         // No more tasks left to do
-        let tasksDone = this.todo.tasks.filter(task => task.done == null || !task.done)
-        if (tasksDone.length === 0 && !this.todo.done) {
-          this.todo.done = true
-          this.done()
+        if (this.todo.tasks != null && this.todo.tasks.length > 0) {
+          let tasksDone = this.todo.tasks.filter(task => task.done == null || !task.done)
+          if (tasksDone.length === 0 && !this.todo.done) {
+            this.todo.done = true
+            this.done()
+          }
         }
 
         this.$emit('saveTodo', this.todo)
